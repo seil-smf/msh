@@ -1,0 +1,7 @@
+
+  Name :
+    show request - show the result of sacm's executed task
+  
+  SYNOPSIS:
+    $ show request [sa <SA Code>] [status <Status1> <Status2> <Status3> ...] [type <Type> [id <ID>]]
+

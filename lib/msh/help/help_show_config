@@ -1,0 +1,7 @@
+
+  Name :
+    show config - show the service adapter config
+  
+  SYNOPSIS:
+    $ show config <SA Code> [type <Type>] [module <Module ID>]
+

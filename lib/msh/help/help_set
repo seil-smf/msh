@@ -1,0 +1,12 @@
+
+  set config		 - set service adapter config
+  set env		 - set environment variable 
+  set module		 - set the specified version module
+  set monitor		 - set monitor settings
+  set mshrc		 - set the specified .mshrc (deployed in ~/.msh/)
+  set sa		 - set the service adapter information
+  set sagroup		 - set the value of service adapter group
+  set template-config	 - set the template config
+  set template-set	 - set the template set value information
+  set template-variable	 - set value of the template set variable information
+

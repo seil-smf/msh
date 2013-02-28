@@ -1,0 +1,7 @@
+
+  Name :
+    set template-set - set the template set value information
+
+  SYNOPSIS:
+    $ set template-set <TemplateSet ID> {[name <TemplateSet Name>] [sa <SA1> <SA2> <SA3> ...] | csv <CSV Path>}
+

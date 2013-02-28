@@ -1,0 +1,7 @@
+
+  Name :
+    delete monitor - delete monitor settings
+
+  SYNOPSIS:
+    $ delete monitor <Monitor ID>
+

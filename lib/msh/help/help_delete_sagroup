@@ -1,0 +1,7 @@
+
+  Name :
+    delete sagroup - delete the service adapter group
+
+  SYNOPSIS:
+    $ delete sagroup <SA Group ID>
+

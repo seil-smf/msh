@@ -1,0 +1,7 @@
+
+  unset env		 - unset environment variable 
+  unset monitor		 - unset monitor settings
+  unset sa		 - unset the service adapter information
+  unset sagroup		 - unset the value of service adapter group
+  unset template-set	 - unset the template set value information
+

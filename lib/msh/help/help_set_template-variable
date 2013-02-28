@@ -1,0 +1,7 @@
+
+  Name :
+    set template-variable - set value of the template set variable information
+  
+  SYNOPSIS:
+    $ set template-variable <TemplateSet ID> <Variable Name> [defaultvalue <Default Value>] [values <SA Code 1> <Value 1>...] 
+

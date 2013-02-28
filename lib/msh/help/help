@@ -1,0 +1,58 @@
+
+  show user			 - show the list of managed sacm user code
+
+  show sa			 - show the service adapter list or service adapter info
+  set sa			 - set the service adapter information
+  unset sa			 - unset the service adapter information
+
+  show config			 - show the service adapter config
+  set config			 - set service adapter config
+
+  show module			 - show the available modules
+  set module			 - set the specified version module
+
+  ping				 - ping command
+  traceroute			 - traceroute command
+  read-storage			 - read-storage command
+  reboot			 - reboot command
+  read-status			 - read-status command
+  clear-status			 - clear-status command
+  md-command			 - md-command command
+
+  show request			 - show the result of sacm's executed task
+  show event			 - show the event of sacm
+
+  show monitor			 - show the monitor config
+  add monitor                    - add monitor settings
+  set monitor                    - set monitor settings
+  unset monitor                  - unset monitor settings
+  delete monitor                 - delete monitor settings
+
+  show sagroup			 - show the service adapter group info
+  add sagroup			 - add the service adapter group
+  set sagroup			 - set the value of service adapter group
+  unset sagroup			 - unset the value of service adapter group
+  delete sagroup		 - delete the service adapter group
+
+  show template-set		 - show the template set info
+  add template-set		 - add the template set
+  set template-set		 - set the template set value information
+  unset template-set		 - unset the template set value information
+  delete template-set		 - delete the template set
+
+  show template-variable	 - show the template set variable info
+  add template-variable 	 - add the template set variable
+  set template-variable 	 - set value of the template set variable information
+  delete template-variable	 - delete the template set variable
+
+  show template-config		 - show the template config info
+  set template-config		 - set the template config
+  delete template-config	 - delete the template config
+
+  show env			 - show the environment variable
+  set env			 - set environment variable 
+  unset env                      - unset environment variable 
+  show mshrc                     - show the specified .mshrc (deployed in ~/.msh/)
+  set mshrc                      - set the specified .mshrc (deployed in ~/.msh/)
+  help				 - show help
+

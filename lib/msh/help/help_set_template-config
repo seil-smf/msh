@@ -1,0 +1,7 @@
+
+  Name :
+    set template-config - set the template config
+
+  SYNOPSIS:
+    $ set template-config <TemplateSet ID> <Module ID> [<Config Path>]
+

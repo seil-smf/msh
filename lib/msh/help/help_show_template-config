@@ -1,0 +1,7 @@
+
+  Name :
+    show template-config - show the template config info
+  
+  SYNOPSIS:
+    $ show template-config <TemplateSet ID> <Module ID>
+

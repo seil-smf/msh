@@ -1,0 +1,7 @@
+
+  Name :
+    clear-status - clear-status command
+  
+  SYNOPSIS:
+    $ clear-status <SA Code> <Module ID> <Clear Status> [targettime <Target Time>]
+

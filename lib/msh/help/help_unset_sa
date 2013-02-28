@@ -1,0 +1,7 @@
+
+  Name :
+    unset sa - unset the service adapter information
+  
+  SYNOPSIS:
+    $ unset sa <SA Code> [name] [description] [distribuitonid] [preferredpushmethod]
+

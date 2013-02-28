@@ -1,0 +1,7 @@
+
+  delete monitor		 - delete monitor settings
+  delete sagroup		 - delete the service adapter group
+  delete template-config	 - delete the template config
+  delete template-set		 - delete the template set
+  delete template-variable	 - delete the template set variable
+

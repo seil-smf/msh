@@ -1,0 +1,7 @@
+
+  Name :
+    add template-variable - add the template set variable
+
+  SYNOPSIS:
+    $ add template-variable <TemplateSet ID> <Varibale Name> [defaultvalue <Default Value>]
+

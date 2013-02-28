@@ -1,0 +1,7 @@
+
+  Name :
+    delete template-variable - delete the template set variable
+
+  SYNOPSIS:
+    $ delete template-variable <Templateset ID> <Varibale Name>
+

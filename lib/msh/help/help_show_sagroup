@@ -1,0 +1,7 @@
+
+  Name :
+    show sagroup - show the service adapter group info
+    
+  SYNOPSIS:
+    $ show sagroup [<SA Group ID>]
+

@@ -1,0 +1,7 @@
+
+  Name :
+    read-status - read-status command
+  
+  SYNOPSIS:
+    $ read-status <SA Code> <Module ID> [targettime <Target Time>]
+

@@ -1,0 +1,7 @@
+
+  Name :
+    set mshrc - set the specified .mshrc (deployed in ~/.msh/)
+  
+  SYNOPSIS:
+    $ set mshrc <.mshrc File>
+

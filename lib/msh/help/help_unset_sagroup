@@ -1,0 +1,7 @@
+
+  Name :
+    unset sagroup - unset the value of service adapter group
+
+  SYNOPSIS:
+    $ unset sagroup <SA Group ID> [name] [sa]
+

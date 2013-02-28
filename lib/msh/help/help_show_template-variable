@@ -1,0 +1,7 @@
+
+  Name :
+    show template-variable - show the template set variable info
+  
+  SYNOPSIS:
+    $ show template-variable <TemplateSet ID> [<Variable Name>]
+

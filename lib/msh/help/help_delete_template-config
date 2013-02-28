@@ -1,0 +1,7 @@
+
+  Name :
+    delete template-config - delete the template config
+
+  SYNOPSIS:
+    $ delete template-config <TemplateSet ID> <Module ID>
+

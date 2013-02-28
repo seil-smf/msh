@@ -1,0 +1,7 @@
+
+  Name :
+    show sa - show the service adapter list or service adapter info
+  
+  SYNOPSIS:
+    $ show sa [<SA Code>]
+

@@ -1,0 +1,7 @@
+
+  Name :
+    set config - set service adapter config
+
+  SYNOPSIS:
+    $ set config <SA Code> <Type> [module <Module ID>] [config <Config PATH>]
+

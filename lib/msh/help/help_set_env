@@ -1,0 +1,7 @@
+
+  Name :
+    set env  - set environment variable 
+
+  SYNOPSIS:
+    $ set env  [access_key <Access Key>] [access_key_secret <Access Key Secret>] [domain <Domain>] [path <Path>] [user_code <User Code>] [proxy_addr <Proxy Address>] [proxy_port <Proxy Port>] [ssl_verify <SSL Verify>]
+

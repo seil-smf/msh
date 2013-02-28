@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+begin
+  require 'msh'
+rescue LoadError
+  require 'rubygems'
+  require 'msh'
+end
+
+if $DEBUG
+  require 'debugger'
+  Debugger.start
+end
+
+Msh.start(ARGV)

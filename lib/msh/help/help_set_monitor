@@ -1,0 +1,7 @@
+
+  Name :
+    set monitor - set monitor settings
+
+  SYNOPSIS:
+    $ set monitor <Monitor ID> [name <Monitor Name>] [reports <Mail1> <Mail2> ... <Mail5>] [sa <SA1> <SA2> <SA3> ...]
+

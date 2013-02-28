@@ -1,0 +1,7 @@
+
+  Name :
+    show monitor - show the monitor config
+  
+  SYNOPSIS:
+    $ show monitor [<Monitor ID>]
+

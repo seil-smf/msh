@@ -1,0 +1,7 @@
+
+  Name :
+    show event - show the event of sacm
+  
+  SYNOPSIS:
+    $ show event [sa <SA Code>] [type <Type>]
+

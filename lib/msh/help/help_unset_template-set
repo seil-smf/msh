@@ -1,0 +1,7 @@
+
+  Name :
+    unset template-set - unset the template set value information
+
+  SYNOPSIS:
+    $ unset template-set <Templateset ID> [name] [sa]
+

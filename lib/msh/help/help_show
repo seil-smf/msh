@@ -1,0 +1,15 @@
+
+  show config			 - show the service adapter config
+  show env			 - show the environment variable
+  show event			 - show the event of sacm
+  show module			 - show the available modules
+  show monitor			 - show the monitor config
+  show mshrc			 - show the specified .mshrc (deployed in ~/.msh/)
+  show request			 - show the result of sacm's executed task
+  show sa			 - show the service adapter list or service adapter info
+  show sagroup			 - show the service adapter group info
+  show template-set		 - show the template set info
+  show template-variable	 - show the template set variable info
+  show template-config		 - show the template config info
+  show user			 - show the list of managed sacm user code
+

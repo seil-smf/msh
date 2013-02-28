@@ -1,0 +1,7 @@
+
+  Name :
+    unset monitor - unset monitor settings
+
+  SYNOPSIS:
+    $ unset monitor <Monitor ID> [name] [reports] [sa]
+

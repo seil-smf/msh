@@ -1,0 +1,7 @@
+
+  Name :
+    reboot - reboot command
+  
+  SYNOPSIS:
+    $ reboot <SA Code> [targettime <Target Time>]
+

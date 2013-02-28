@@ -1,0 +1,7 @@
+
+  Name :
+    set sa - set the service adapter information
+  
+  SYNOPSIS:
+    $ set sa <SA Code> [name <Name>] [description <Description>] [distributionid <Distribution ID>] [preferredpushmethod <Preferred Push Method>]
+

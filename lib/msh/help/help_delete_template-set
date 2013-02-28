@@ -1,0 +1,7 @@
+
+  Name :
+    delete template-set - delete the template set
+
+  SYNOPSIS:
+    $ delete template-set <Templateset ID>
+

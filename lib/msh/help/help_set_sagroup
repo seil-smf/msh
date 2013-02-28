@@ -1,0 +1,7 @@
+
+  Name :
+    set sagroup - set the value of service adapter group
+
+  SYNOPSIS:
+    $ set sagroup <SA Group ID> [name <SA Group Name>] [sa <SA1> <SA2> ...]
+

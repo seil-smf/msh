@@ -1,0 +1,7 @@
+
+  Name :
+    read-storage - read-storage command
+  
+  SYNOPSIS:
+    $ read-storage <SA Code> <storage> [targettime <Target Time>]
+

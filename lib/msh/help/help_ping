@@ -1,0 +1,7 @@
+
+  Name :
+    ping - ping command
+  
+  SYNOPSIS:
+    $ ping <SA Code> <IPAddress> [size <Size>] [count <Count>] [targettime <Target Time>]
+

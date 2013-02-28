@@ -1,0 +1,7 @@
+
+  Name :
+    md-command - md-command command
+  
+  SYNOPSIS:
+    $ md-command <SA Code> <Module ID> <Command> [targettime <Target Time>]
+
