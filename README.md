@@ -20,4 +20,4 @@ IIJ SACMサービスをコマンドラインから利用するためのツール
   * https://dev.smf.jp/
 
 
-[![Build Status](https://travis-ci.org/[seil-smf]/[msh].png)](https://travis-ci.org/[seil-smf]/[msh)
+[![Build Status](https://travis-ci.org/seil-smf/msh.png)](https://travis-ci.org/seil-smf/msh)
