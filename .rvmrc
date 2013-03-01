@@ -1,3 +1,0 @@
-#export RUBYOPT='-v -w' # verbose & warning
-export RUBYOPT='-v -W1'
-rvm use 1.9.3
