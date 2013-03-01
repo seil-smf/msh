@@ -18,3 +18,6 @@ IIJ SACMサービスをコマンドラインから利用するためのツール
 
 * SMF Developer
   * https://dev.smf.jp/
+
+
+[![Build Status](https://travis-ci.org/[seil-smf]/[msh].png)](https://travis-ci.org/[seil-smf]/[msh)
