@@ -21,8 +21,9 @@ module Msh
         return if has_targetTime?(command_args, response)
         md_command_id = json_load(response.body)['id']
 
-
-
+        api = Msh::Api::GETUserUserCodeRequestMdCommandId.new({
+                                                                :id => md_command_id,
+                                                              })
         response = execute_poll(api)
         return unless check_http_success(response)
 
