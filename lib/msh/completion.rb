@@ -35,6 +35,8 @@ module Msh
           if fixed_buffer =~ /#{key_re}/
             if Symbol === v
               candidate_table = eval(v.to_s).call(@splited_buffer)
+            elsif Proc === v
+              candidate_table = v.call(@splited_buffer)
             else
               candidate_table = v
             end
