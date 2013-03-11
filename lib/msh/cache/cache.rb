@@ -7,20 +7,17 @@ module Msh
     attr_accessor :sa_code, :sagroup_id, :monitor_id, :template_set_id, :template_variable_name
 
     def initialize
-#      load_sa_code
-#      load_sagroup_id
-#      load_monitor_id
       @sa_code = load_id(Msh::Api::GETUserUserCodeSa.new({ }), "code")
       @sagroup_id = load_id(Msh::Api::GETUserUserCodeSagroup.new({ }), "id")
       @monitor_id = load_id(Msh::Api::GETUserUserCodeMonitor.new({ }), "id")
       @template_set_id = load_id(Msh::Api::GETUserUserCodeTemplate.new({ }), "id")
-      @template_variable_name = []
+      @template_variable_name = {}
       @template_set_id.each do |template_id|
-        @template_variable_name << { template_id => load_id(Msh::Api::GETUserUserCodeTemplateIdVariable.new({
+        @template_variable_name[template_id] = load_id(Msh::Api::GETUserUserCodeTemplateIdVariable.new({
                                                        :id => template_id
                                                      }),
                 "name")
-        }
+
       end
 
     end

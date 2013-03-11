@@ -3,6 +3,7 @@ module Msh
   module Completion
     module CompletionTable
 
+
       TOP_COMPLETION_TABLE ={
         "ping"         => :PING_COMPLETION_TABLE,
         "traceroute"   => :TRACEROUTE_COMPLETION_TABLE,
@@ -22,7 +23,7 @@ module Msh
       }
 
       SET_COMPLETION_TABLE ={
-        "set" => ['config', 'monitor', 'sa', 'sagroup', 'template-set', 'template-variable', 'template-config', 'module', 'env', 'mshrc'],
+        :'\Aset\z' => ['config', 'monitor', 'sa', 'sagroup', 'template-set', 'template-variable', 'template-config', 'module', 'env', 'mshrc'],
 
         # set config
         :'\Aset\s+config\z'                                                         => :GET_SA,
@@ -42,7 +43,7 @@ module Msh
         :'\Aset\s+monitor\s+[^\s]+(\s+(reports(\s+[^\s]+){1,5}|name\s+((["\'])([^\5]+?)\5|([^\s]+)))){0,2}\s+sa\z'                => ["<SA>", "　"],
         :'\Aset\s+monitor\s+[^\s]+(\s+(reports(\s+[^\s]+){1,5}|name\s+((["\'])([^\5]+?)\5|([^\s]+)))){0,2}\s+sa(\s+(?!reports|name)[^\s]+){1,}\z' => :MONITOR_SA_OPTION_COMPLETION,
         :'\Aset\s+monitor\s+[^\s]+(\s+(sa(\s+[^\s]+){1,}|name\s+((["\'])([^\5]+?)\5|([^\s]+)))){0,2}\s+reports\z'                 => ["<Mail>", "　"],
-        :'\Aset\s+monitor\s+[^\s]+(\s+(sa(\s+[^\s]+){1,}|name\s+((["\'])([^\5]+?)\5|([^\s]+)))){0,2}\s+reports(\s+[^\s]+){1,4}\z' => :MONITOR_REPORTS_OPTION_COMPLETION,
+        :'\Aset\s+monitor\s+[^\s]+(\s+(sa(\s+[^\s]+){1,}|name\s+((["\'])([^\5]+?)\5|([^\s]+)))){0,2}\s+reports(\s+(?!sa|name)[^\s]+){1,4}\z' => :MONITOR_REPORTS_OPTION_COMPLETION,
         :'\Aset\s+monitor\s+[^\s]+(\s+(reports(\s+[^\s]+){1,5}|sa(\s+[^\s]+){1,})){0,2}\s+name\z'          => ["<Name>", "　"],
 #        :'\Aset\s+monitor\s+[^\s]+(\s+(reports(\s+[^\s]+){1,5}|sa(\s+[^\s]+){1,})){0,2}\s+name\z'          => ["<Name>", "　"],
 
@@ -50,31 +51,34 @@ module Msh
         # set sa
         :'\Aset\s+sa\z'                                                                            => :GET_SA,
         :'\Aset\s+sa\s+[^\s]+\z'                                                                   => ["name", "description", "distributionid", "preferredpushmethod"],
-        :'\Aset\s+sa\s+[^\s]+(\s+(name|description|distributionid|preferredpushmethod)\s+[^\s]+){1,4}\z'   => :SA_OPTION_COMPLETION,
-        :'\Aset\s+sa\s+[^\s]+(\s+(description|distributionid|preferredpushmethod)\s+[^\s]+){0,3}\s+name\z' => ["<Name>", "　"],
-        :'\Aset\s+sa\s+[^\s]+(\s+(name|distributionid|preferredpushmethod)\s+[^\s]+){0,3}\s+description\z' => ["<Description>", "　"],
-        :'\Aset\s+sa\s+[^\s]+(\s+(name|description|preferredpushmethod)\s+[^\s]+){0,3}\s+distributionid\z' => ["<Distribution ID>", "　"],
-        :'\Aset\s+sa\s+[^\s]+(\s+(name|description|distributionid)\s+[^\s]+){0,3}\s+preferredpushmethod\z' => ["<Preferred Push Method>", "　"],
+        :'\Aset\s+sa\s+[^\s]+(\s+(name|description|distributionid|preferredpushmethod)\s+((["\'])([^\4]+?)\4|[^\s]+)){1,4}\z'   => :SA_OPTION_COMPLETION,
+        :'\Aset\s+sa\s+[^\s]+(\s+(description|distributionid|preferredpushmethod)\s+((["\'])([^\4]+?)\4|[^\s]+)){0,3}\s+name\z' => ["<Name>", "　"],
+        :'\Aset\s+sa\s+[^\s]+(\s+(name|distributionid|preferredpushmethod)\s+((["\'])([^\4]+?)\4|[^\s]+)){0,3}\s+description\z' => ["<Description>", "　"],
+        :'\Aset\s+sa\s+[^\s]+(\s+(name|description|preferredpushmethod)\s+((["\'])([^\4]+?)\4|[^\s]+)){0,3}\s+distributionid\z' => ["<Distribution ID>", "　"],
+        :'\Aset\s+sa\s+[^\s]+(\s+(name|description|distributionid)\s+((["\'])([^\4]+?)\4|[^\s]+)){0,3}\s+preferredpushmethod\z' => ["<Preferred Push Method>", "　"],
 
         # set sagroup
         :'\Aset\s+sagroup\z' => :GET_SAGROUP,
         :'\Aset\s+sagroup\s+[^\s]+\z' => ["name", "sa"],
         :'\Aset\s+sagroup\s+[^\s]+\s+sa\z' => :GET_SA,
         :'\Aset\s+sagroup\s+[^\s]+\s+sa(\s+[^\s]+)+\z' => ["name", "<SA Code>", "(Enter)"],
-        :'\Aset\s+sagroup\s+[^\s]+\s+name\s+[^\s]+\s+sa\z' => :GET_SA,
-        :'\Aset\s+sagroup\s+[^\s]+\s+name\s+[^\s]+\s+sa(\s+[^\s]+)+\z' => ["<SA Code>", "(Enter)"],
+        :'\Aset\s+sagroup\s+[^\s]+\s+name\s+((["\'])([^\2]+?)\2|[^\s]+)\s+sa\z' => :GET_SA,
+#        :'\Aset\s+sagroup\s+[^\s]+\s+name\s+((["\'])([^\2]+?)\2|[^\s]+)\s+sa(\s+[^\s]+)+\z' => ["<SA Code>", "(Enter)"],
+        :'\Aset\s+sagroup\s+[^\s]+\s+name\s+((["\'])([^\2]+?)\2|[^\s]+)\s+sa(\s+[^\s]+)+\z' => :GET_SA_WITH_ENTER,
         :'\Aset\s+sagroup\s+[^\s]+\s+name\z' => ["<SA Group Name>", "　"],
-        :'\Aset\s+sagroup\s+[^\s]+\s+name\s+[^\s]+\z' => ["sa", "(Enter)"],
+        :'\Aset\s+sagroup\s+[^\s]+\s+name\s+((["\'])([^\2]+?)\2|[^\s]+)\z' => ["sa", "(Enter)"],
         :'\Aset\s+sagroup\s+[^\s]+\s+sa(\s+[^\s]+)+?\s+name\z' => ["<SA Group Name>", "　"],
-        :'\Aset\s+sagroup\s+[^\s]+\s+sa(\s+[^\s]+)+?\s+name\s+[^\s]+\z' => ["(Enter)", "　"],
+        :'\Aset\s+sagroup\s+[^\s]+\s+sa(\s+[^\s]+)+?\s+name\s+((["\'])([^\3]+?)\3|[^\s]+)\z' => ["(Enter)", "　"],
 
         # set template-set
-        :'\Aset\s+template-set\z' => ["<TemplateSet ID>", "　"],
+#        :'\Aset\s+template-set\z' => ["<TemplateSet ID>", "　"],
+        :'\Aset\s+template-set\z' => :GET_TEMPLATE,
         :'\Aset\s+template-set\s+[^\s]+\z' => ["sa", "name", "csv"],
 
         :'\Aset\s+template-set\s+[^\s]+\s+csv\z' => ["<CSV Path>", "　"],
         :'\Aset\s+template-set\s+[^\s]+\s+csv\s+[^\s]+\z' => ["(Enter)", "　"],
-        :'\Aset\s+template-set\s+[^\s]+\s+sa\z' => ["<SA>", "　"],
+#        :'\Aset\s+template-set\s+[^\s]+\s+sa\z' => ["<SA>", "　"],
+        :'\Aset\s+template-set\s+[^\s]+\s+sa\z' => :GET_SA,
         :'\Aset\s+template-set\s+[^\s]+\s+sa(\s+[^\s]+){1,}\z' => :TEMPLATE_SET_OPTION_COMPLETION,
         :'\Aset\s+template-set\s+[^\s]+\s+sa(\s+[^\s]+)+\s+name\z' => ["<Name>", "　"],
         :'\Aset\s+template-set\s+[^\s]+\s+sa(\s+[^\s]+)+\s+name\s+[^\s]+\z'   => ["(Enter)", "　"],
@@ -85,8 +89,10 @@ module Msh
         :'\Aset\s+template-set\s+[^\s]+\s+name\s+[^\s]+\s+sa(\s+[^\s]){1,}\z' => ["<SA>", "(Enter)"],
 
         # set template-variable
-        :'\Aset\s+template-variable\z' => ["<Templateset ID>", "　"],
-        :'\Aset\s+template-variable\s+[^\s]+\z' => ["<Templateset Name>", "　"],
+#        :'\Aset\s+template-variable\z' => ["<Templateset ID>", "　"],
+        :'\Aset\s+template-variable\z' => :GET_TEMPLATE,
+#        :'\Aset\s+template-variable\s+[^\s]+\z' => ["<Templateset Name>", "　"],
+        :'\Aset\s+template-variable\s+[^\s]+\z' => :GET_TEMPLATE_VARIABLE,
         :'\Aset\s+template-variable(\s+[^\s]+){2}\z' => ["defaultvalue", "values"],
         :'\Aset\s+template-variable(\s+[^\s]+){2}\s+defaultvalue\z' => ["<default Value>", "　"],
         :'\Aset\s+template-variable(\s+[^\s]+){2}\s+values\z' => :GET_SA,
@@ -96,14 +102,15 @@ module Msh
 
 
         # set template-config
-        :'\Aset\s+template-config\z' => ["<Templateset ID>", "　"],
+        :'\Aset\s+template-config\z' => :GET_TEMPLATE,
         :'\Aset\s+template-config\s+[^\s]+\z' => ["<Module ID>", "　"],
         :'\Aset\s+template-config(\s+[^\s]+){2}\z' => ["config", "(Enter)"],
         :'\Aset\s+template-config(\s+[^\s]+){2}\s+config\z' => ["<Config PATH>", "　"],
-        :'\Aset\s+template-config\s+set(\s+[^\s]+){2}\s+config\s+[^\s]+\z' => ["(Enter)", "　"],
+        :'\Aset\s+template-config(\s+[^\s]+){2}\s+config\s+[^\s]+\z' => ["(Enter)", "　"],
 
         # set module
-        :'\Aset\s+module\z' => ['<SA Code>', '　'],
+#        :'\Aset\s+module\z' => ['<SA Code>', '　'],
+        :'\Aset\s+module\z' => :GET_SA,
         :'\Aset\s+module\s+[^\s]+\z' => ['<Module ID>', '　'],
         :'\Aset\s+module(\s+[^\s]+){2}\z' => ['<Version>', '　'],
         :'\Aset\s+module(\s+[^\s]+){3}\z' => ['(Enter)', '　'],
@@ -119,7 +126,7 @@ module Msh
         :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|proxy_addr|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+user_code\z' => ["<user_code>", "　"],
         :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+proxy_addr\z' => ["<proxy_addr>", "　"],
         :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|ssl_verify)\s+[^\s]+){0,7}\s+proxy_port\z' => ["<proxy_port>", "　"],
-        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_add)\s+[^\s]+){0,7}\s+ssl_verify\z' => ["true", "false"],
+        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|proxy_port)\s+[^\s]+){0,7}\s+ssl_verify\z' => ["true", "false"],
 
         # set mshrc
 #        :'\Aset\s+mshrc\z' => ["mshrc"],
@@ -152,7 +159,8 @@ module Msh
 
 
         # unset template-set
-        :'\Aunset\s+template-set\z' => ["<Templateset ID>", "　"],
+#        :'\Aunset\s+template-set\z' => ["<Templateset ID>", "　"],
+        :'\Aunset\s+template-set\z' => :GET_TEMPLATE,
         :'\Aunset\s+template-set\s+[^\s]+\z' => ["sa", "name"],
         :'\Aunset\s+template-set\s+[^\s]+\s+sa\z' => ["name", "(Enter)"],
         :'\Aunset\s+template-set\s+[^\s]+\s+name\z' => ["sa", "(Enter)"],
@@ -174,14 +182,15 @@ module Msh
 
         #sagroup
         :'\Aadd\s+sagroup\z'                                                                            => ["<SA Group Name>", "　"],
-        :'\Aadd\s+sagroup\s+[^\s]+\z'                                                                            => ["(Enter)", "　"],
+        :'\Aadd\s+sagroup\s+((["\'])([^\2]+?)\2|([^\s]+))\z'                                                                            => ["(Enter)", "　"],
 
         #template-set
         :'\Aadd\s+template-set\z' => ["<TemplateSet Name>", "　"],
         :'\Aadd\s+template-set\s+[^\s]+\z' => ["(Enter)", "　"],
 
         #template-variable
-        :'\Aadd\s+template-variable\z' => ["<TemplateSet ID>", "　"],
+#        :'\Aadd\s+template-variable\z' => ["<TemplateSet ID>", "　"],
+        :'\Aadd\s+template-variable\z' => :GET_TEMPLATE,
         :'\Aadd\s+template-variable\s+[^\s]+\z' => ["<TemplateVariable Name>", "　"],
         :'\Aadd\s+template-variable(\s+[^\s]+){2}\z' => ["defaultvalue", "(Enter)"],
         :'\Aadd\s+template-variable(\s+[^\s]+){2}\s+defaultvalue\z' => ["<Default Value>", "　"],
@@ -198,23 +207,28 @@ module Msh
         :'\Adelete\s+monitor+\s+[^\s]+\z'                                                                     => ["(Enter)", "　"],
 
         # delete sagroup
-        :'\Adelete\s+sagroup\z'                                                                            => ["<SA Group Name>", "　"],
+#        :'\Adelete\s+sagroup\z'                                                                            => ["<SA Group Name>", "　"],
+        :'\Adelete\s+sagroup\z'                                                                            => :GET_SAGROUP,
         :'\Adelete\s+sagroup+\s+[^\s]+\z'                                                                     => ["(Enter)", "　"],
 
         # delete template-set
 
         # delete template-variable
-        :'\Adelete\s+template-variable\z' => ["<TemplateSet ID>", "　"],
-        :'\Adelete\s+template-variable\s+[^\s]+\z' => ["<TemplateSet Name>", "　"],
+#        :'\Adelete\s+template-variable\z' => ["<TemplateSet ID>", "　"],
+        :'\Adelete\s+template-variable\z' => :GET_TEMPLATE,
+#        :'\Adelete\s+template-variable\s+[^\s]+\z' => ["<TemplateSet Name>", "　"],
+        :'\Adelete\s+template-variable\s+[^\s]+\z' => :GET_TEMPLATE_VARIABLE,
         :'\Adelete\s+template-variable(\s+[^\s]+){2}\z' => ["(Enter)", "　"],
 
         # delete template-config
-        :'\Adelete\s+template-config\z' => ["<TemplateSet ID>", "　"],
+#        :'\Adelete\s+template-config\z' => ["<TemplateSet ID>", "　"],
+        :'\Adelete\s+template-config\z' => :GET_TEMPLATE,
         :'\Adelete\s+template-config\s+[^\s]+\z' => ["<Module ID>", "　"],
         :'\Adelete\s+template-config(\s+[^\s]+){2}\z' => ["(Enter)", "　"],
 
         # delete template-set
-        :'\Adelete\s+template-set\z' => ["<TemplateSet ID>", "　"],
+#        :'\Adelete\s+template-set\z' => ["<TemplateSet ID>", "　"],
+        :'\Adelete\s+template-set\z' => :GET_TEMPLATE,
         :'\Adelete\s+template-set\s+[^\s]+\z' => ["(Enter)", "　"],
 
       }
@@ -275,7 +289,7 @@ module Msh
       READ_STATUS_COMPLETION_TABLE = {
         :'\Aread-status\z'                                            => :GET_SA,
         :'\Aread-status\s+[^\s]+\z'                                   => ["<Module ID>", "　"],
-        :'\Aread-status(\s+[^\s]+){2}\z'                              => ["<Command>", "(Enter)"],
+        :'\Aread-status(\s+[^\s]+){2}\z'                              => ["<Command>", "　"],
         :'\Aread-status(\s+[^\s]+){3,}\z'                              => ["targettime","<Command>", "(Enter)"],
         :'\Aread-status(\s+[^\s]+){3,}\s+targettime(\s+[^\s]+){0,1}\z' => ["<targetTime>", "　"],
         :'\Aread-status(\s+[^\s]+){3,}\s+targettime(\s+[^\s]+){2}\z'   => ["(Enter)", "　"],
@@ -284,7 +298,7 @@ module Msh
       CLEAR_STATUS_COMPLETION_TABLE = {
         :'\Aclear-status\z'                                            => :GET_SA,
         :'\Aclear-status\s+[^\s]+\z'                                   => ["<Module ID>", "　"],
-        :'\Aclear-status(\s+[^\s]+){2}\z'                              => ["targettime", "(Enter)"],
+        :'\Aclear-status(\s+[^\s]+){2}\z'                              => ["<Command>", "　"],
         :'\Aclear-status(\s+[^\s]+){3,}\z'                              => ["targettime","<Command>", "(Enter)"],
         :'\Aclear-status(\s+[^\s]+){3,}\s+targettime(\s+[^\s]+){0,1}\z' => ["<targetTime>", "　"],
         :'\Aclear-status(\s+[^\s]+){3,}\s+targettime(\s+[^\s]+){2}\z'   => ["(Enter)", "　"],
@@ -301,9 +315,10 @@ module Msh
 
       SHOW_COMPLETION_TABLE = {
         :'\Ashow\z'                                                         => ["event", "config", "request", "monitor", "user", "sa", "sagroup", "template-set", "template-variable", "template-config", "module", "env", "mshrc"],
+
         :'\Ashow\s+event(\s+(sa|type)\s+[^\s]+){0,2}\z'                     => :SHOW_EVENT_OPTION_COMPLETION,
         :'\Ashow\s+event\s+(type\s+[^\s]+\s+){0,1}sa\z'                     => :GET_SA,
-        :'\Ashow\s+event\s+(sa\s+[^\s]+\s+){0,1}type\z'                     => ["<Type>", "　"],
+        :'\Ashow\s+event\s+(sa\s+[^\s]+\s+){0,1}type\z'                     => ["configure", "monitor", "request"],
 
         :'\Ashow\s+config\z'                                                => :GET_SA,
         :'\Ashow\s+config\s+[^\s]+\z'                                       => ["type", "(Enter)"],
@@ -316,34 +331,34 @@ module Msh
         :'\Ashow\s+request(\s+(sa\s+[^\s]+|status(\s+[^\s]+){1,9})){0,2}\z' => :SHOW_REQUEST_OPTION_COMPLETION,
         :'\Ashow\s+request\s+(status(\s+[^\s]+){1,9}\s+){0,1}sa\z'          => :GET_SA,
         :'\Ashow\s+request\s+(sa\s+[^\s]+\s+){0,1}status\z'                 => ["<Status>", "　"],
-        :'\Ashow\s+request\s+(sa\s+[^\s]+\s+){0,1}status(\s+[^\s]+){1,8}\z' => ["<Status>", "(Enter)"],
+        :'\Ashow\s+request\s+(sa\s+[^\s]+\s+){0,1}status(\s+[^\s]+){1,8}\z' => ["type", "<Status>", "(Enter)"],
         :'\Ashow\s+request\s+.*type\z'                 => ["ping", "traceroute", "read-storage", "reboot", "read-status", "clear-status", "md-command"],
         :'\Ashow\s+request\s+.*type\s+(ping|traceroute|read-storage|reboot|read-status|clear-status|md-command)\z' => ["id", "(Enter)"],
         :'\Ashow\s+request\s+.*type\s+(ping|traceroute|read-storage|reboot|read-status|clear-status|md-command)\s+id\z' => ["<Request ID>", "　"],
         :'\Ashow\s+request\s+.*type\s+(ping|traceroute|read-storage|reboot|read-status|clear-status|md-command)\s+id\s+[^\s]+\z' => ["(Enter)", "　"],
 
-
-        :'\Ashow\s+monitor\z'                                               => ["<Monitor ID>", "(Enter)"],
+        :'\Ashow\s+monitor\z'                                               => :GET_MONITOR_WITH_ENTER,
         :'\Ashow\s+monitor\s+[^\s]+\z'                                      => ["(Enter)", "　"],
 
         :'\Ashow\s+user\z'                                                  => ["(Enter)", "　"],
 
-        :'\Ashow\s+sa\z'                                                    => ["<SA Code>", "(Enter)"],
+        :'\Ashow\s+sa\z'                                                    => :GET_SA_WITH_ENTER,
         :'\Ashow\s+sa\s+[^\s]+\z'                                           => ["(Enter)", "　"],
 
-        :'\Ashow\s+sagroup\z'                                                    => :GET_SAGROUP,
-        :'\Ashow\s+sagroup\s+[^\s]+\z'                                                    => ["(Enter)", "　" ],
+        :'\Ashow\s+sagroup\z'                                               => :GET_SAGROUP_WITH_ENTER,
+        :'\Ashow\s+sagroup\s+[^\s]+\z'                                      => ["(Enter)", "　" ],
 
         :'\Ashow\s+template-set\z'                                          => ["id", "(Enter)"],
-        :'\Ashow\s+template-set\s+id\z'                                          => ["<TemplateSet ID>", "(Enter)"],
+        :'\Ashow\s+template-set\s+id\z'                                          => :GET_TEMPLATE_WITH_ENTER,
         :'\Ashow\s+template-set\s+id\s+[^\s]+\z'                                  => ["(Enter)", "csv"],
         :'\Ashow\s+template-set\s+id\s+[^\s]+\s+csv\z'                                  => ["(Enter)", "　"],
 
-        :'\Ashow\s+template-variable\z'                                => ["<Templateset ID>", "　"],
+        :'\Ashow\s+template-variable\z'                                => :GET_TEMPLATE,
         :'\Ashow\s+template-variable\s+[^\s]+\z'                       => ["name", "(Enter)"],
-        :'\Ashow\s+template-variable\s+[^\s]+\s+\z'              => ["(Enter)", "　"],
+        :'\Ashow\s+template-variable\s+[^\s]+\s+[^\s]+\z'                       => :GET_TEMPLATE_VARIABLE_WITH_ENTER,
+        :'\Ashow\s+template-variable\s+[^\s]+\s+[^\s]+\s+[^\s]+\z'              => ["(Enter)", "　"],
 
-        :'\Ashow\s+template-config\z'                                => ["<Templateset ID>", "　"],
+        :'\Ashow\s+template-config\z'                                => :GET_TEMPLATE,
         :'\Ashow\s+template-config\s+[^\s]+\z'                       => ["<Module ID>", "(Enter)"],
         :'\Ashow\s+template-config\s+[^\s]+\s+[^\s]+\z'              => ["(Enter)", "　"],
 
@@ -375,7 +390,7 @@ module Msh
       }
 
       TRACEROUTE_OPTION_COMPLETION = Proc.new { |splited_buffer|
-        candidate_table = ["targettime", "maxhop", "count", "(Enter)"]
+        candidate_table = ["targettime", "count", "maxhop", "(Enter)"]
 
         candidate_table -= ["targettime"] if splited_buffer.include?("targettime")
         candidate_table -= ["maxhop"]     if splited_buffer.include?("maxhop")
@@ -407,7 +422,7 @@ module Msh
       }
 
       MONITOR_OPTION_COMPLETION = Proc.new { |splited_buffer|
-        candidate_table = ["name", "sa", "reports", "(Enter)"]
+        candidate_table = ["name", "reports", "sa", "(Enter)"]
 
         candidate_table -= ["name"]    if splited_buffer.include?("name")
         candidate_table -= ["sa"]      if splited_buffer.include?("sa") && @line_buffer !~ /sa$/
@@ -449,6 +464,8 @@ module Msh
 
       TEMPLATE_SET_OPTION_COMPLETION = Proc.new { |splited_buffer|
         candidate_table = ["name", "(Enter)"]
+ 
+        candidate_table += GET_SA.call
 
         candidate_table -= ["name"]                if splited_buffer.include?("name")
 
@@ -481,34 +498,96 @@ module Msh
       }
 
       GET_SA = Proc.new do |a|
-        if $cache.sa_code.empty?
-          ret = ["<SA Code>"]
+        if $cache.sa_code.nil? || $cache.sa_code.empty?
+          ret = ["<SA Code>", "　"]
         else
           ret = $cache.sa_code
         end
         ret
       end
 
-      GET_SAGROUP = Proc.new do |a|
+      GET_SA_WITH_ENTER = Proc.new do |a|
+        if $cache.sa_code.nil? || $cache.sa_code.empty?
+          ret = ["<SA Code>",]
+        else
+          ret = $cache.sa_code
+        end
+        ret << "(Enter)"
+      end
 
-        if $cache.sagroup_id.empty?
-          ret = ["<Sagroup ID>"]
+
+      GET_SAGROUP = Proc.new do |a|
+        if $cache.sagroup_id.nil? || $cache.sagroup_id.empty?
+          ret = ["<Sagroup ID>", "　"]
         else
           ret = $cache.sagroup_id
         end
         ret
       end
 
-      GET_MONITOR = Proc.new do |a|
+      GET_SAGROUP_WITH_ENTER = Proc.new do |a|
+        if $cache.sagroup_id.nil? || $cache.sagroup_id.empty?
+          ret = ["<Sagroup ID>"]
+        else
+          ret = $cache.sagroup_id
+        end
+        ret << "(Enter)"
+      end
 
-        if $cache.monitor_id.empty?
-          ret = ["<Monitor ID>"]
+      GET_MONITOR = Proc.new do |a|
+        if $cache.monitor_id.nil? || $cache.monitor_id.empty?
+          ret = ["<Monitor ID>", "　"]
         else
           ret = $cache.monitor_id
         end
         ret
       end
 
+      GET_MONITOR_WITH_ENTER = Proc.new do |a|
+        if $cache.monitor_id.nil? || $cache.monitor_id.empty?
+          ret = ["<Monitor ID>"]
+        else
+          ret = $cache.monitor_id
+        end
+        ret << "(Enter)"
+      end
+
+      GET_TEMPLATE = Proc.new do |a|
+        if $cache.template_set_id.nil? || $cache.template_set_id.empty?
+          ret = ["<TemplateSet ID>"]
+        else
+          ret = $cache.template_set_id
+        end
+        ret
+      end
+
+      GET_TEMPLATE_WITH_ENTER = Proc.new do |a|
+        if $cache.template_set_id.nil? || $cache.template_set_id.empty?
+          ret = ["<TemplateSet ID>"]
+        else
+          ret = $cache.template_set_id
+        end
+        ret << "(Enter)"
+      end
+
+      GET_TEMPLATE_VARIABLE = Proc.new do |a|
+        if $cache.template_variable_name[a[-1]].nil? || $cache.template_variable_name[a[-1]].empty?
+          ret = ["<TemplateVariable Name>"]
+        else
+          ret = $cache.template_variable_name[a[-1]]
+        end
+        ret
+      end
+
+      GET_TEMPLATE_VARIABLE_WITH_ENTER = Proc.new do |a|
+        if $cache.template_variable_name[a[-2]].nil? || $cache.template_variable_name[a[-2]].empty?
+          ret = ["<TemplateVariable Name>"]
+        else
+          ret = $cache.template_variable_name[a[-2]]
+        end
+        ret << "(Enter)"
+        ret
+      end
 
     end
   end
