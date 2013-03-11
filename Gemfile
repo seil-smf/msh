@@ -8,4 +8,5 @@ group :development do
   gem 'debugger'
   gem 'test-unit'
   gem 'mocha'
+  gem 'simplecov', :require => false
 end
