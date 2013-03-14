@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/show_monitor_command'
-require 'msh/output'
-
 class ShowMonitorCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -88,6 +83,52 @@ expected_str = <<EOS
     MonitorGroup ID: 7
     MonitorGroup Name: Monitor Group4
     Member: 0
+EOS
+
+    assert_equal(expected_str, $output.buffer)
+
+    assert_kind_of(String, $output.buffer)
+    assert(! $output.buffer.nil?)
+    assert(! $output.buffer.empty?)
+  end
+
+  def test_with_monitor_id
+    $output = Msh::Output::Buffer.new
+
+    response_json = {
+      "id"     => 1,
+      "name"   => "Monitor Group1",
+      "reports" => [
+                     nil,
+                     nil,
+                     nil,
+                     nil,
+                     nil,
+                     ],
+      "sa" => []
+    }.to_json
+
+    response = mock()
+    response.stubs(:code).returns("200")
+    response.stubs(:content_type).returns("application/json")
+    response.stubs(:body).returns(response_json)
+
+    c = Msh::Command::ShowMonitorCommand.new
+    c.expects(:execute).returns(response)
+
+    c.doit(["show", "monitor", "1"])
+
+expected_str = <<EOS
+---
+MonitorGroup ID: 1
+MonitorGroup Name: Monitor Group1
+  Reports:
+    Report_0: 
+    Report_1: 
+    Report_2: 
+    Report_3: 
+    Report_4: 
+  SA:
 EOS
 
     assert_equal(expected_str, $output.buffer)

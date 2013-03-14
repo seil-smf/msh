@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/show_template_set_command'
-require 'msh/output'
-
 class ShowTemplateSetCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class ShowTemplateSetCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/user/tsa99999999/template",
-      :method => :GET,
-    }
 
     response_json = {
       "results" =>
@@ -70,6 +60,77 @@ expected_str = <<EOS
     TemplateSet ID: 1
     TemplateSet Name: Template1
     TemplateSet Member: 0
+EOS
+
+    assert_equal(expected_str, $output.buffer)
+
+    assert_kind_of(String, $output.buffer)
+    assert_equal("200", response.code)
+    assert(! $output.buffer.nil?)
+    assert(! $output.buffer.empty?)
+  end
+
+  def test_with_option
+    $output = Msh::Output::Buffer.new
+
+    response_json = {
+      "id" => 1,
+      "name" => "Template1",
+      "moduleId" => [
+                     0,
+                     1
+                    ],
+      "sa" => [],
+    }.to_json
+
+    response = stub()
+    response.stubs(:code).returns("200")
+    response.stubs(:content_type).returns("application/json")
+    response.stubs(:body).returns(response_json)
+
+    c = Msh::Command::ShowTemplateSetCommand.new
+    c.expects(:execute).returns(response)
+
+    c.doit(["show", "template-set", "id", "1"])
+
+expected_str = <<EOS
+---
+TemplateSet ID: 1
+TemplateSet Name: Template1
+TemplateSet Member: 
+SA: 
+EOS
+
+    assert_equal(expected_str, $output.buffer)
+
+    assert_kind_of(String, $output.buffer)
+    assert_equal("200", response.code)
+    assert(! $output.buffer.nil?)
+    assert(! $output.buffer.empty?)
+  end
+
+  def test_with_csv_option
+    $output = Msh::Output::Buffer.new
+
+    response_csv = <<EOS
+[name],HOSTNAME
+[default],hostname
+EOS
+
+    response = stub()
+    response.stubs(:code).returns("200")
+    response.stubs(:content_type).returns("text/csv")
+    response.stubs(:body).returns(response_csv)
+
+    c = Msh::Command::ShowTemplateSetCommand.new
+    c.expects(:execute).returns(response)
+
+    c.doit(["show", "template-set", "id", "1", "csv"])
+
+expected_str = <<EOS
+[name],HOSTNAME
+[default],hostname
+
 EOS
 
     assert_equal(expected_str, $output.buffer)

@@ -71,4 +71,48 @@ EOS
     assert(! $output.buffer.empty?)
   end
 
+
+  def test_with_sa_code
+    $output = Msh::Output::Buffer.new
+
+    response_json = {
+         "code"           => "tss88888888",
+         "name"           => "サービスアダプタ",
+         "description"    => "メモ",
+         "distributionId" => "0000-0000-0000-0000-FFFF-FFFF-FFFF-FFFF",
+         "up"             => true,
+         "configState"    => "pushready",
+         "group"          => nil,
+         "template"       => nil,
+         "monitor"        => nil
+    }.to_json
+
+    response = mock()
+    response.stubs(:code).returns("200")
+    response.stubs(:content_type).returns("application/json")
+    response.stubs(:body).returns(response_json)
+
+    c = Msh::Command::ShowSaCommand.new
+    c.expects(:execute).returns(response)
+
+    c.doit(["show", "sa", "tss88888888"])
+
+expected_str = <<EOS
+---
+SA Code: tss88888888
+SA Label: サービスアダプタ
+Description: メモ
+Distribution ID: 0000-0000-0000-0000-FFFF-FFFF-FFFF-FFFF
+Preferred Push Method: 
+Up: true
+EOS
+
+    assert_equal(expected_str, $output.buffer)
+
+    assert_kind_of(String, $output.buffer)
+    assert(! $output.buffer.nil?)
+    assert(! $output.buffer.empty?)
+  end
+
+
 end
