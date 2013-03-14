@@ -17,7 +17,6 @@ module Msh
                                                        :id => template_id
                                                      }),
                 "name")
-
       end
 
     end
@@ -41,52 +40,6 @@ module Msh
       end
       ret
     end
-
-
-    def load_sa_code
-      @sa_code = []
-      api = Msh::Api::GETUserUserCodeSa.new({ })
-      begin
-        sacmapiclient = SacmApiClient.new($conf, api)
-        response = sacmapiclient.start
-        JSON.load(response.body)["results"].each do |sa|
-          @sa_code << sa["code"]
-        end
-      rescue => e
-
-      end
-    end
-
-    def load_sagroup_id
-      @sagroup_id = []
-      api = Msh::Api::GETUserUserCodeSagroup.new({ })
-      begin
-        sacmapiclient = SacmApiClient.new($conf, api)
-        response = sacmapiclient.start
-        JSON.load(response.body)["results"].each do |sagroup|
-          @sagroup_id << sagroup["id"].to_s unless sagroup["id"].nil?
-        end
-      rescue => e
-
-      end
-    end
-
-    def load_monitor_id
-      @monitor_id = []
-      api = Msh::Api::GETUserUserCodeMonitor.new({ })
-      begin
-        sacmapiclient = SacmApiClient.new($conf, api)
-        response = sacmapiclient.start
-        JSON.load(response.body)["results"].each do |monitor|
-          @monitor_id << monitor["id"].to_s unless monitor["id"].nil?
-        end
-      rescue => e
-
-      end
-
-    end
-
-
   end
 end
 
