@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/traceroute_command'
-require 'msh/output'
-
 class TracerouteCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class TracerouteCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    check_request = {
-      :api    => '/user/tsa99999999/request/traceroute/1:12345',
-      :method => :GET
-    }
 
     check_response_json = {
       "id"               => "1:12345",
@@ -57,23 +47,6 @@ class TracerouteCommandTest < Test::Unit::TestCase
     check_response.stubs(:code).returns("200")
     check_response.stubs(:content_type).returns("application/json")
     check_response.stubs(:body).returns(check_response_json)
-
-    request = {
-      :api          => "/user/tsa99999999/request/traceroute",
-      :method       => :POST,
-      :content_type => "application/json",
-      :request      =>
-      {
-        :sa =>
-        {
-          :code => "tss88888888"
-        },
-        :targetTime    => nil,
-        :targetAddress => "10.0.0.1",
-        :maxHop        => 30,
-        :count         => 3
-      }
-    }
 
     response_json = {
       "id"               => "1:12345",

@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/set_env_command'
-require 'msh/output'
-
 class SetEnvCommandTest < Test::Unit::TestCase
   def setup
     $conf = Msh::Conf.new.merge!(
@@ -22,7 +17,7 @@ class SetEnvCommandTest < Test::Unit::TestCase
                  )
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
 
     response_conf = Msh::Conf.new.merge!(
@@ -40,7 +35,7 @@ class SetEnvCommandTest < Test::Unit::TestCase
     c = Msh::Command::SetEnvCommand.new
     c.expects(:env_set).returns(response_conf)
 
-    c.doit(["env", "set", "user", "tsa00000000"])
+    c.doit(["env", "set", "user_code", "tsa00000000"])
 
     assert_kind_of(String, $output.buffer)
     assert_equal("tsa00000000", $conf[:user_code])
@@ -48,5 +43,4 @@ class SetEnvCommandTest < Test::Unit::TestCase
     assert(! $output.buffer.empty?)
   end
 
-  # TODO オプションを指定した場合のテストケースを追加する
 end

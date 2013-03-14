@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/show_config_command'
-require 'msh/output'
-
 class ShowConfigCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class ShowConfigCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/user/tsa99999999/sa/tss88888888/config",
-      :method => :GET
-    }
 
     response_json = {
       "working" =>
@@ -136,11 +126,6 @@ EOS
   def test_working
     $output = Msh::Output::Buffer.new
 
-    request = {
-      :api    => "/user/tsa99999999/sa/tss88888888/config/working",
-      :method => :GET
-    }
-
     response_json = {
       "results" =>
       [{
@@ -190,11 +175,6 @@ EOS
 
   def test_working_with_moduleid
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/user/tsa99999999/sa/tss88888888/config/working/0/plain",
-      :method => :GET
-    }
 
     response_text = "hostname \"seil\"\ninterface lan1 add dhcp\nroute add default dhcp"
 
@@ -289,11 +269,6 @@ EOS
   def test_startup_with_moduleid
     $output = Msh::Output::Buffer.new
 
-    request = {
-      :api    => "/user/tsa99999999/sa/tss88888888/config/startup/0/plain",
-      :method => :GET
-    }
-
     response_text = "hostname \"seil\"\ninterface lan1 add dhcp\nroute add default dhcp"
 
     response = mock()
@@ -387,11 +362,6 @@ EOS
 
   def test_running_with_moduleid
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/user/tsa99999999/sa/tss88888888/config/running/0/plain",
-      :method => :GET
-    }
 
     response_text = "hostname \"seil\"\ninterface lan1 add dhcp\nroute add default dhcp"
 

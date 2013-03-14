@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/ping_command'
-require 'msh/output'
-
 class PingCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class PingCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    check_request = {
-      :api    => '/user/tsa99999999/request/ping/1:12345',
-      :method => :GET
-    }
 
     check_response_json = {
       "id"               => "1:12345",

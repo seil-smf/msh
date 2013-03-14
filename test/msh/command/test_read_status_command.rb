@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/read_status_command'
-require 'msh/output'
-
 class ReadStatusCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class ReadStatusCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    check_request = {
-      :api    => '/user/tsa99999999/request/read-status/1:12345/result/module/0/plain',
-      :method => :GET
-}
 
     check_response_text = "SEIL/X1 IPL Monitor version 1.03\nSEIL/X1 Ver. 4.00 (OutsidersEdge)\n\nArch    : SEIL/X1 Rev. A\nCPU     : CN30XX (0xd0202) Rev. 2\nVendor  : OEM\nSerial  : AD9010J-BAAXXXXXXXXX\n\nHost    : \"seil\"\nBootinfo: rebooting by software reset\nBootdev : flash\n\nDate    : 2001/01/18 09:07:19 (JST)\nUp      : 36 minutes  (since 2001/01/18 08:31:44)\n\nUsers   : 0 users\nLoadavg : 0.00 (1min), 0.01 (5min), 0.00 (15min)\nCPUstat : Used 0%, Interrupts 0%\nMemory  : Total 128MB, Used 100MB (78%), Avail 28MB (21%)"
 
@@ -34,21 +24,6 @@ class ReadStatusCommandTest < Test::Unit::TestCase
     check_response.stubs(:code).returns("200")
     check_response.stubs(:content_type).returns("text/plain")
     check_response.stubs(:body).returns(check_response_text)
-
-    request = {
-      :api          => "/user/tsa99999999/request/read-status",
-      :method       => :POST,
-      :content_type => "multipart/form-data",
-      :request      =>
-      {
-        :code            => "tss88888888",
-        :targetTime      => nil,
-        :"moduleId/type_command" => [{
-                                       :"moduleId/type" => "0/plain",
-                                       :command         => "show system",
-                                     }]
-      }
-    }
 
     response_json = {
       "id"                  => "1:12345",
@@ -110,4 +85,5 @@ EOS
     assert(! $output.buffer.nil?)
     assert(! $output.buffer.empty?)
   end
+
 end

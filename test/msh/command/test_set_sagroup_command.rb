@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/set_sagroup_command'
-require 'msh/output'
-
 class SetSaGroupCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,21 +15,8 @@ class SetSaGroupCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api          => "/user/tsa99999999/sagroup/3",
-      :method       => :PUT,
-      :content_type => "application/json",
-      :request      =>
-      {
-        :name => "SA Group",
-        :sa => [{
-                "code" => "tss88888888"
-                }]
-      }
-    }
 
     response_json = {
       "sa" =>

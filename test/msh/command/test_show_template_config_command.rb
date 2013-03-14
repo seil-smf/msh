@@ -13,7 +13,7 @@ class ShowTemplateConfigCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
 
 expected_str = <<EOS

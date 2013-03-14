@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/clear_status_command'
-require 'msh/output'
-
 class ClearStatusCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class ClearStatusCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    check_request = {
-      :api    => '/user/tsa99999999/request/clear-status/1:12345/result/module/0/plain',
-      :method => :GET
-    }
 
     check_response_text = "0 entries flushed from NAT table"
 

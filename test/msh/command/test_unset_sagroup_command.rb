@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/unset_sagroup_command'
-require 'msh/output'
-
 class UnsetSaGroupCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,19 +15,8 @@ class UnsetSaGroupCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api          => "/user/tsa99999999/sagroup/3",
-      :method       => :PUT,
-      :content_type => "application/json",
-      :request      =>
-      {
-        :name => "SA Group 3",
-        :sa => []
-      }
-    }
 
     response_json = {
       "sa" => [],

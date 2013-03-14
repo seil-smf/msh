@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/show_sagroup_command'
-require 'msh/output'
-
 class ShowSaGroupCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class ShowSaGroupCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/user/tsa99999999/sagroup",
-      :method => :GET,
-    }
 
     response_json = {
       "results" =>
@@ -74,11 +64,6 @@ EOS
 
   def test_with_id
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/user/tsa99999999/sagroup/3",
-      :method => :GET,
-    }
 
     response_json = {
       "sa" =>

@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/read_storage_command'
-require 'msh/output'
-
 class ReadStorageCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class ReadStorageCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    check_request = {
-      :api    => '/user/tsa99999999/request/read-storage/1:12345/result/module/0/plain',
-      :method => :GET
-    }
 
     check_response_text = "hostname \"seil\"\ninterface lan1 add dhcp\nroute add default dhcp"
 
@@ -34,21 +24,6 @@ class ReadStorageCommandTest < Test::Unit::TestCase
     check_response.stubs(:code).returns("200")
     check_response.stubs(:content_type).returns("text/plain")
     check_response.stubs(:body).returns(check_response_text)
-
-    request = {
-      :api          => "/user/tsa99999999/request/read-storage",
-      :method       => :POST,
-      :content_type => "application/json",
-      :request      =>
-      {
-        :sa =>
-        {
-          :code => "tss88888888"
-        },
-        :targetTime => nil,
-        :storage    => "running"
-      }
-    }
 
     response_json = {
       "id"               => "1:12345",
@@ -92,4 +67,5 @@ EOS
     assert(! $output.buffer.nil?)
     assert(! $output.buffer.empty?)
   end
+
 end

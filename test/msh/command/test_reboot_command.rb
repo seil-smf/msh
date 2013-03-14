@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/reboot_command'
-require 'msh/output'
-
 class RebootCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,22 +15,8 @@ class RebootCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api          => "/user/tsa99999999/request/reboot",
-      :method       => :POST,
-      :content_type => "application/json",
-      :request      =>
-      {
-        :sa =>
-        {
-          :code => "tss88888888"
-        },
-        :targetTime => nil
-      }
-    }
 
     response_json = {
       "id"               => "1:12345",
@@ -74,4 +55,5 @@ EOS
     assert(! $output.buffer.nil?)
     assert(! $output.buffer.empty?)
   end
+
 end

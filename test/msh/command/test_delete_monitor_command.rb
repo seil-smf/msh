@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/delete_monitor_command'
-require 'msh/output'
-
 class DeleteMonitorCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,13 +15,8 @@ class DeleteMonitorCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/user/tsa99999999/monitor/1",
-      :method => :DELETE,
-    }
 
     response_text = nil
 

@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/set_config_command'
-require 'msh/output'
-
 class SetConfigCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -22,13 +17,6 @@ class SetConfigCommandTest < Test::Unit::TestCase
 
   def test_working
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api          => "/user/tsa99999999/sa/tss88888888/config/working/0/plain",
-      :method       => :PUT,
-      :content_type => "text/plain",
-      :request      => "hostname \"seil\"\ninterface lan1 add dhcp\nroute add default dhcp\n"
-    }
 
     response_text = nil
 
@@ -57,17 +45,6 @@ EOS
   def test_running
     $output = Msh::Output::Buffer.new
 
-    request = {
-      :api          => "/user/tsa99999999/sa/tss88888888/config/running",
-      :method       => :PUT,
-      :content_type => "application/json",
-      :request      =>
-      {
-        :deployStartup => true,
-        :date          => nil
-      }
-    }
-
     response_text = nil
 
     response = mock()
@@ -92,12 +69,6 @@ EOS
 
   def test_startup
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api          => "/user/tsa99999999/sa/tss88888888/config/startup",
-      :method       => :PUT,
-      :content_type => "application/json",
-    }
 
     response_text = nil
 

@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/set_template_config_command'
-require 'msh/output'
-
 class SetTemplateConfigCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,15 +15,8 @@ class SetTemplateConfigCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api          => "/user/tsa99999999/template/1/config/0/plain",
-      :method       => :PUT,
-      :content_type => "text/plain",
-      :request      => "template_config"
-    }
 
     response_text = ""
 
@@ -55,5 +43,4 @@ EOS
     assert(! $output.buffer.empty?)
   end
 
- 
 end

@@ -2,11 +2,8 @@
 
 require 'test_helper'
 
-require 'msh/command/help_command'
-require 'msh/output'
-
 class HelpCommandTest < Test::Unit::TestCase
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
 
     c = Msh::Command::HelpCommand.new

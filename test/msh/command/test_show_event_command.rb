@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/show_event_command'
-require 'msh/output'
-
 class ShowEventCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,14 +15,8 @@ class ShowEventCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api     => "/user/tsa99999999/event",
-      :method  => :GET,
-      :request => { }
-    }
 
     response_json = {
       "results" =>

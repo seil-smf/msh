@@ -15,13 +15,8 @@ class ShowUserCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api    => "/home",
-      :method => :GET,
-    }
 
     response_json ={
       "results" =>
