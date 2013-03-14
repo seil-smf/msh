@@ -19,34 +19,6 @@ module Msh
 
     private
 
-    def clear_request
-      @request = { }
-    end
-
-    def set_api(api)
-      @request[:api] = api
-    end
-
-    def set_method(method)
-      @request[:method] = method
-    end
-
-    def set_content_type(content_type)
-      @request[:content_type] = content_type
-    end
-
-    def set_request_param(request_param)
-      @request[:request] = request_param
-    end
-
-    def get_request
-      return @request
-    end
-
-    def doit
-
-    end
-
     def check_http_success(response)
       unless response.code =~ HTTP_SUCCESS
         $output.puts "API response status code is #{response.code} (#{response.message})."
@@ -100,7 +72,7 @@ module Msh
       execute(api)
     end
 
-    def need_module_init?(command_args)
+    def get_vendor_code_sa_type(command_args)
       api = Msh::Api::GETUserUserCodeSaSaCode.new({
                                                     :sa => command_args[:sa]
                                                   })
@@ -110,11 +82,15 @@ module Msh
       vendor_code = distid[4, 8].to_i(16)
       sa_type = distid[12, 4].to_i(16)
 
-      api = Msh::Api::GETHomeModule.new({ })
-      api.request = {
+      {
         :vendor => vendor_code,
         :satype => sa_type,
       }
+    end
+
+    def module_exist?(command_args)
+      api = Msh::Api::GETHomeModule.new({ })
+      api.request = get_vendor_code_sa_type(command_args)
 
       response = execute(api)
       modules = json_load(response.body)["results"]
@@ -130,9 +106,15 @@ module Msh
         return false
       end
 
+      true
+    end
+
+    def need_module_init?(command_args)
+      return false unless module_exist?(command_args[:module_id].to_i)
+
       api = Msh::Api::GETUserUserCodeSaSaCodeConfigWorkingModuleIdPlain.new({
-                                                                       :sa_code => command_args[:sa]
-                                                                     })
+                                                                              :sa_code => command_args[:sa]
+                                                                            })
       execute(api).code == "404"
     end
 
