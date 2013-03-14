@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/md_command_command'
-require 'msh/output'
-
 class MdCommandCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,35 +15,15 @@ class MdCommandCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    check_request = {
-      :api    => '/user/tsa99999999/request/md-command/1:12345/result/module/0/plain',
-      :method => :GET
-    }
 
     check_response_text = "SEIL/X1 IPL Monitor version 1.03\nSEIL/X1 Ver. 4.00 (OutsidersEdge)\n\nArch    : SEIL/X1 Rev. A\nCPU     : CN30XX (0xd0202) Rev. 2\nVendor  : OEM\nSerial  : AD9010J-BAAXXXXXXXXX\n\nHost    : \"seil\"\nBootinfo: rebooting by software reset\nBootdev : flash\n\nDate    : 2001/01/18 09:07:19 (JST)\nUp      : 36 minutes  (since 2001/01/18 08:31:44)\n\nUsers   : 0 users\nLoadavg : 0.00 (1min), 0.01 (5min), 0.00 (15min)\nCPUstat : Used 0%, Interrupts 0%\nMemory  : Total 128MB, Used 100MB (78%), Avail 28MB (21%)"
 
-    check_response = stub()
+    check_response = mock()
     check_response.stubs(:code).returns("200")
     check_response.stubs(:content_type).returns("text/plain")
     check_response.stubs(:body).returns(check_response_text)
-
-    request = {
-      :api          => "/user/tsa99999999/request/md-command",
-      :method       => :POST,
-      :content_type => "multipart/form-data",
-      :request      =>
-      {
-        :code            => "tss88888888",
-        :targetTime      => nil,
-        :"moduleId/type_command" => [{
-                                       :"moduleId/type" => "0/plain",
-                                       :command         => "show system",
-                                     }]
-      }
-    }
 
     response_json = {
       "id"                  => "1:12345",
@@ -98,12 +73,18 @@ class MdCommandCommandTest < Test::Unit::TestCase
         "result"=> 100,
         "binary"=> false
       }
-    }
+    }.to_json
 
-    response = stub()
+    response = mock()
     response.stubs(:code).returns("201")
-    response.stubs(:content_type).returns("text/plain")
+    response.stubs(:content_type).returns("application/json")
     response.stubs(:body).returns(response_json)
+
+    response2 = mock()
+    response2.stubs(:code).returns("200")
+    response2.stubs(:content_type).returns("application/json")
+    response2.stubs(:body).returns(response_json2)
+
 
     get_module_type_args = {
       :command      => "md-command",
@@ -114,12 +95,12 @@ class MdCommandCommandTest < Test::Unit::TestCase
     }
 
     c = Msh::Command::MdCommandCommand.new
-#    c.stubs(:get_module_type).returns('plain')
-#    c.expects(:execute).returns(response_json)
-#    c.stubs(:execute_poll).returns(response_json2)
-#    c.expects(:execute).returns(check_response)
+    c.stubs(:get_module_type).returns('plain')
+    c.expects(:post_md_command_task).returns(response)
+    c.stubs(:execute_poll).returns(response2)
+    c.expects(:execute).returns(check_response)
 
-#    c.doit(["md-command", "tss88888888", "0", "show", "system"])
+    c.doit(["md-command", "tss88888888", "0", "show", "system"])
 
     expected_str = <<EOS
 SEIL/X1 IPL Monitor version 1.03\nSEIL/X1 Ver. 4.00 (OutsidersEdge)\n\nArch    : SEIL/X1 Rev. A
@@ -139,10 +120,41 @@ CPUstat : Used 0%, Interrupts 0%
 Memory  : Total 128MB, Used 100MB (78%), Avail 28MB (21%)
 EOS
 
-#    assert_equal(expected_str, $output.buffer)
+    assert_equal(expected_str, $output.buffer)
 
-#    assert_kind_of(String, $output.buffer)
-#    assert(! $output.buffer.nil?)
-#    assert(! $output.buffer.empty?)
+    assert_kind_of(String, $output.buffer)
+    assert(! $output.buffer.nil?)
+    assert(! $output.buffer.empty?)
   end
+
+  def test_has_module_error
+    $output = Msh::Output::Buffer.new
+
+    expected_str = "md-command: specified Module ID is invalid.\n"
+
+    c = Msh::Command::MdCommandCommand.new
+    c.doit(["md-command", "tss88888888", "a", "show", "system"])
+
+    assert_equal(expected_str, $output.buffer)
+
+    assert_kind_of(String, $output.buffer)
+    assert(! $output.buffer.nil?)
+    assert(! $output.buffer.empty?)
+  end
+
+  def test_has_command_error
+    $output = Msh::Output::Buffer.new
+
+    expected_str = "md-command: parameter invalid.\n"
+
+    c = Msh::Command::MdCommandCommand.new
+    c.doit(["md-command", "tss88888888", "0"])
+
+    assert_equal(expected_str, $output.buffer)
+
+    assert_kind_of(String, $output.buffer)
+    assert(! $output.buffer.nil?)
+    assert(! $output.buffer.empty?)
+  end
+
 end

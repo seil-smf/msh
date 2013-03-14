@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/show_user_command'
-require 'msh/output'
-
 class ShowUserCommandTest < Test::Unit::TestCase
   def setup
     $conf = {

@@ -5,6 +5,13 @@ require 'msh/command/abstract_command'
 module Msh
   module Command
     class MdCommandCommand < AbstractCommand
+      def post_md_command_task
+        api = Msh::Api::POSTUserUserCodeRequestMdCommand.new({ })
+        api.request = @request[:request]
+
+        execute(api)
+      end
+
       def doit(command_array)
         @verbose = command_array.delete('-v')
         command_args = CommandArgs.new
@@ -13,10 +20,7 @@ module Msh
         return if command_args.has_error?
         set_request_param(command_args)
 
-        api = Msh::Api::POSTUserUserCodeRequestMdCommand.new({ })
-        api.request = @request[:request]
-
-        response = execute(api)
+        response = post_md_command_task
         return unless check_http_success(response)
         return if has_targetTime?(command_args, response)
         md_command_id = json_load(response.body)['id']

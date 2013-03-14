@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/add_template_set_command'
-require 'msh/output'
-
 class AddTemplateSetCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,18 +15,8 @@ class AddTemplateSetCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
-
-    request = {
-      :api          => "/user/tsa99999999/template",
-      :method       => :POST,
-      :content_type => "application/json",
-      :request      =>
-      {
-        :name => 'TemplateSet'
-      }
-    }
 
     response_json = {
       "id"           => 1,

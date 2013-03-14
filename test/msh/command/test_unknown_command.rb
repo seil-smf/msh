@@ -6,7 +6,7 @@ require 'msh/command/unknown_command_command'
 require 'msh/output'
 
 class UnknownCommandCommandTest < Test::Unit::TestCase
-  def test
+  def test_unknown_command
     $output = Msh::Output::Buffer.new
 
     c = Msh::Command::UnknownCommandCommand.new

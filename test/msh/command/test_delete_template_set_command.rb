@@ -2,11 +2,6 @@
 
 require 'test_helper'
 
-require 'mocha'
-
-require 'msh/command/delete_template_set_command'
-require 'msh/output'
-
 class DeleteTemplateSetCommandTest < Test::Unit::TestCase
   def setup
     $conf = {
@@ -20,15 +15,10 @@ class DeleteTemplateSetCommandTest < Test::Unit::TestCase
     }
   end
 
-  def test_no_subcommand
+  def test_no_option
     $output = Msh::Output::Buffer.new
 
-    request = {
-      :api    => "/user/tsa99999999/template/1",
-      :method => :DELETE,
-    }
-
-    response_text = nil
+    response_text = ""
 
     response = stub()
     response.stubs(:code).returns("204")
