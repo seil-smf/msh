@@ -10,22 +10,6 @@ module Msh
         @method = "POST"
         @content_type = "application/json"
         @request = @api_request
-#        parse_request unless @request_array.empty?
-      end
-
-      def parse_request
-        @request = { }
-
-        if ret = parse_single_arg('sa')
-          @request[:sa] = {:code => ret}
-        end
-
-        @request[:targetTime] = parse_single_arg('targettime')
-
-        if ret = parse_single_arg('storage')
-          @request[:storage] = ret
-        end
-
       end
 
     end
