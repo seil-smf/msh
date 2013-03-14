@@ -18,6 +18,15 @@ module Msh
 
       end
 
+      def set_timezone(offset)
+        if @api.index("?")
+          @api = "#{@api}&offset-minute=#{offset}"
+        else
+          @api = "#{@api}?offset-minute=#{offset}"
+        end
+      end
+
+
 #      def validate
 #        self.private_methods.map{|sym| sym.to_s}.grep(/\Avalidate_.+\z/).each do |validate_method|
 #          eval validate_method

@@ -12,6 +12,7 @@ module Msh
   class SacmApiClient
     def initialize(conf, request)
       @conf = conf
+      request.set_timezone@conf[:timezone_offset] if @conf[:timezone_offset]
       @request = build_request(request)
     end
     #initialize
@@ -60,7 +61,7 @@ module Msh
       end
     end
 
-    def build_query_string(request)
+    def build_query_string(request, question)
       if request.nil?
         return ""
       else
@@ -78,12 +79,12 @@ module Msh
           end
         }
 
-        return '?' + query_array.join('&')
+        return "#{question ? nil : "?"}#{query_array.join('&')}"
       end
     end
 
     def build_get_request(request)
-      return  Net::HTTP::Get.new(@conf[:path]+request.api+build_query_string(request.request))
+      return  Net::HTTP::Get.new(@conf[:path]+request.api+build_query_string(request.request, request.api.index("?")))
     end
     #build_get_request
 
