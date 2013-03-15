@@ -12,6 +12,10 @@ module Msh
       if argv.empty?
         shell.run
       else
+        if idx = argv.index("user_code")
+          argv.delete_at(idx)
+          $conf[:user_code] = argv.delete_at(idx)
+        end
         shell.non_interactive_run(argv)
       end
     else
