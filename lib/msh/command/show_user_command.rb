@@ -6,16 +6,27 @@ module Msh
   module Command
     class ShowUserCommand < AbstractCommand
       def doit(command_array)
-        @verbose = command_array.delete('-v')
-        command_args = CommandArgs.new
-        command_args.parse_args(command_array)
+        command_args = parse(command_array)
         return if command_args.has_error?
 
         api = Msh::Api::GETHome.new
 
         response = execute(api)
         return unless check_http_success(response)
+        print_response(response)
+      end
 
+      private
+
+      def parse(command_array)
+        @verbose = command_array.delete('-v')
+        command_args = CommandArgs.new
+        command_args.parse_args(command_array)
+
+        command_args
+      end
+
+      def print_response(response)
         if @verbose
           puts_response(response)
         else
@@ -27,10 +38,7 @@ module Msh
             $output.puts "    Management Label: #{user["name"]}"
           end
         end
-
       end
-
-      private
 
       class CommandArgs < Hash
         include Msh::AbstractCommandArgs
