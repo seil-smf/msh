@@ -12,7 +12,7 @@ module Msh
   class SacmApiClient
     def initialize(conf, request)
       @conf = conf
-      request.set_timezone@conf[:timezone_offset] if @conf[:timezone_offset]
+      request.set_timezone@conf[:offset_minute] if @conf[:offset_minute]
       @request = build_request(request)
     end
     #initialize
