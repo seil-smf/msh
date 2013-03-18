@@ -116,17 +116,19 @@ module Msh
         :'\Aset\s+module(\s+[^\s]+){3}\z' => ['(Enter)', '　'],
 
         # set env
-        :'\Aset\s+env\z'                                                                          => ["access_key", "access_key_secret", "domain", "path", "user_code", "proxy_addr", "proxy_port", "ssl_verify"],
-        :'\Aset\s+env(\s+[^\s]+\s+[^\s]+){1,8}\z'                                                 => :ENV_OPTION_COMPLETION,
+        :'\Aset\s+env\z'                                                                          => ["access_key", "access_key_secret", "domain", "path", "user_code", "proxy_addr", "proxy_port", "ssl_verify", "offset_minute"],
+        :'\Aset\s+env(\s+[^\s]+\s+[^\s]+){1,9}\z'                                                 => :ENV_OPTION_COMPLETION,
 
-        :'\Aset\s+env(\s+(access_key_secret|domain|path|user_code|proxy_addr|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+access_key\z' => ["<access_key>", "　"],
-        :'\Aset\s+env(\s+(access_key|domain|path|user_code|proxy_addr|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+access_key_secret\z' => ["<access_key_secret>", "　"],
-        :'\Aset\s+env(\s+(access_key|access_key_secret|path|user_code|proxy_addr|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+domain\z' => ["<domain>", "　"],
+        :'\Aset\s+env(\s+(access_key_secret|domain|path|user_code|proxy_addr|proxy_port|ssl_verify|offset_minute)\s+[^\s]+){0,7}\s+access_key\z' => ["<access_key>", "　"],
+        :'\Aset\s+env(\s+(access_key|domain|path|user_code|proxy_addr|proxy_port|ssl_verify|offset_minute)\s+[^\s]+){0,7}\s+access_key_secret\z' => ["<access_key_secret>", "　"],
+        :'\Aset\s+env(\s+(access_key|access_key_secret|path|user_code|proxy_addr|proxy_port|ssl_verify|offset_minute)\s+[^\s]+){0,7}\s+domain\z' => ["<domain>", "　"],
         :'\Aset\s+env(\s+(access_key|access_key_secret|domain|user_code|proxy_addr|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+path\z' => ["<path>", "　"],
-        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|proxy_addr|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+user_code\z' => ["<user_code>", "　"],
-        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+proxy_addr\z' => ["<proxy_addr>", "　"],
-        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|ssl_verify)\s+[^\s]+){0,7}\s+proxy_port\z' => ["<proxy_port>", "　"],
-        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|proxy_port)\s+[^\s]+){0,7}\s+ssl_verify\z' => ["true", "false"],
+        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|proxy_addr|proxy_port|ssl_verify|offset_minute)\s+[^\s]+){0,7}\s+user_code\z' => ["<user_code>", "　"],
+        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_port|ssl_verify|offset_minute)\s+[^\s]+){0,7}\s+proxy_addr\z' => ["<proxy_addr>", "　"],
+        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|ssl_verify|offset_minute)\s+[^\s]+){0,7}\s+proxy_port\z' => ["<proxy_port>", "　"],
+        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|proxy_port|offset_minute)\s+[^\s]+){0,7}\s+ssl_verify\z' => ["true", "false"],
+        :'\Aset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|proxy_port|ssl_verify)\s+[^\s]+){0,7}\s+offset_minute\z' => ["<-720 - 840>", "　"],
+
 
         # set mshrc
 #        :'\Aset\s+mshrc\z' => ["mshrc"],
@@ -167,8 +169,8 @@ module Msh
         :'\Aunset\s+template-set\s+[^\s]+(\s+(sa|name)){2}\z' => ["(Enter)", "　"],
 
         # unset env
-        :'\Aunset\s+env\z'                                                                        => ["access_key", "access_key_secret", "domain", "path", "user_code", "proxy_addr", "proxy_port", "ssl_verify"],
-        :'\Aunset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|proxy_port|ssl_verify)){1,8}\z'          => :ENV_OPTION_COMPLETION,
+        :'\Aunset\s+env\z'                                                                        => ["access_key", "access_key_secret", "domain", "path", "user_code", "proxy_addr", "proxy_port", "ssl_verify", "offset_minute"],
+        :'\Aunset\s+env(\s+(access_key|access_key_secret|domain|path|user_code|proxy_addr|proxy_port|ssl_verify|offset_minute)){1,9}\z'          => :ENV_OPTION_COMPLETION,
       }
 
 
@@ -475,7 +477,7 @@ module Msh
 
 
       ENV_OPTION_COMPLETION = Proc.new { |splited_buffer|
-        candidate_table = ["access_key", "access_key_secret", "domain", "path", "user_code", "proxy_addr", "proxy_port", "ssl_verify", "(Enter)"]
+        candidate_table = ["access_key", "access_key_secret", "domain", "path", "user_code", "proxy_addr", "proxy_port", "ssl_verify", "offset_minute", "(Enter)"]
 
         candidate_table -= ["access_key"]       if splited_buffer.include?("access_key") && @line_buffer !~ /key$/
         candidate_table -= ["access_key_secret"] if splited_buffer.include?("access_key_secret")
@@ -485,6 +487,7 @@ module Msh
         candidate_table -= ["proxy_addr"] if splited_buffer.include?("proxy_addr")
         candidate_table -= ["proxy_port"] if splited_buffer.include?("proxy_port")
         candidate_table -= ["ssl_verify"] if splited_buffer.include?("ssl_verify")
+        candidate_table -= ["offset_minute"] if splited_buffer.include?("offset_minute")
 
         candidate_table << "　" if candidate_table.size <= 1
         candidate_table

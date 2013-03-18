@@ -178,7 +178,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
-                    ['access_key', 'access_key_secret', 'domain', 'path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify'],
+                    ['access_key', 'access_key_secret', 'domain', 'path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', 'offset_minute'],
                     "",
                     "unset env ",
                     )
@@ -190,7 +190,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
-                    ['access_key_secret', 'domain', 'path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', '(Enter)'],
+                    ['access_key_secret', 'domain', 'path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', 'offset_minute', '(Enter)'],
                     "",
                     "unset env access_key ",
                     )
@@ -202,7 +202,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
-                    ['domain', 'path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', '(Enter)'],
+                    ['domain', 'path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', 'offset_minute', '(Enter)'],
                     "",
                     "unset env access_key access_key_secret "
                     )
@@ -214,7 +214,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
-                    ['path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', '(Enter)'],
+                    ['path', 'user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', 'offset_minute', '(Enter)'],
                     "",
                     "unset env access_key access_key_secret domain "
                     )
@@ -226,7 +226,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
-                    ['user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', '(Enter)'],
+                    ['user_code', 'proxy_addr', 'proxy_port', 'ssl_verify', 'offset_minute', '(Enter)'],
                     "",
                     "unset env access_key access_key_secret domain path "
                     )
@@ -238,7 +238,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
-                    ['proxy_addr', 'proxy_port', 'ssl_verify', '(Enter)'],
+                    ['proxy_addr', 'proxy_port', 'ssl_verify', 'offset_minute', '(Enter)'],
                     "",
                     "unset env access_key access_key_secret domain path user_code "
                     )
@@ -250,7 +250,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
-                    ['proxy_port', 'ssl_verify', '(Enter)'],
+                    ['proxy_port', 'ssl_verify', 'offset_minute', '(Enter)'],
                     "",
                     "unset env access_key access_key_secret domain path user_code proxy_addr "
                     )
@@ -263,7 +263,7 @@ class CompletionUnsetTest < Test::Unit::TestCase
 
 
     completion_test(
-                    ['ssl_verify', '(Enter)'],
+                    ['ssl_verify', 'offset_minute', '(Enter)'],
                     "",
                     "unset env access_key access_key_secret domain path user_code proxy_addr proxy_port "
                     )
@@ -275,10 +275,23 @@ class CompletionUnsetTest < Test::Unit::TestCase
                     )
 
     completion_test(
+                    ['offset_minute', '(Enter)'],
+                    "",
+                    "unset env access_key access_key_secret domain path user_code proxy_addr proxy_port ssl_verify",
+                    )
+
+    completion_test(
+                    ['offset_minute'],
+                    "o",
+                    "unset env access_key access_key_secret domain path user_code proxy_addr proxy_port ssl_verify o",
+                    )
+
+    completion_test(
                     ['(Enter)', '　'],
                     "",
-"unset env access_key access_key_secret domain path user_code proxy_addr proxy_port ssl_verify",
+                    "unset env access_key access_key_secret domain path user_code proxy_addr proxy_port ssl_verify offset_minute ",
                     )
+
   end
 
 end
