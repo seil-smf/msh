@@ -110,7 +110,7 @@ module Msh
     end
 
     def need_module_init?(command_args)
-      return false unless module_exist?(command_args[:module_id].to_i)
+      return false unless module_exist?(command_args)
 
       api = Msh::Api::GETUserUserCodeSaSaCodeConfigWorkingModuleIdPlain.new({
                                                                               :sa_code => command_args[:sa]
