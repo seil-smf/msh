@@ -13,7 +13,6 @@ module MshQuery
   end
 
   def self.fetch_sa(user_code=nil)
-
     if user_code
       ret = `#{MSH} show sa user_code #{user_code} -v`
     else
@@ -45,7 +44,12 @@ module MshQuery
   end
 
   def self.fetch_log(sa, module_id=0)
-    ret = `#{MSH} md-command #{sa} #{module_id} show log`
+    if sa["user_code"]
+      ret = `#{MSH} md-command #{sa} #{module_id} show log user_code sa["user_code"]`
+    else
+      ret = `#{MSH} md-command #{sa} #{module_id} show log `
+    end
+
     if ret =~ /\A[\.]+\n/
       ret = ret.split("\n")[2..-1].join("\n")
     end
@@ -105,5 +109,11 @@ module MshQuery
 
 end
 
+#p  MshQuery.bulk_push_sa(MshQuery.load_csv("./scripts/sample.csv"))
 
+
+MshQuery.fetch_log_all_sa.each do |code, log|
+  puts "#{code} show log: "
+  puts log
+end
 
