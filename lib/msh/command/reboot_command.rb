@@ -14,7 +14,8 @@ module Msh
         set_request_param(command_args)
 
         api = Msh::Api::POSTUserUserCodeRequestReboot.new({
-                                                         })
+                                                            :user_code => $conf[:user_code],
+                                                          })
         api.request = @request[:request]
 
         response = execute(api)

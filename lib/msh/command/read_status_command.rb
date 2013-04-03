@@ -13,7 +13,9 @@ module Msh
 #        return if command_args.has_error?
         set_request_param(command_args)
 
-        api = Msh::Api::POSTUserUserCodeRequestReadStatus.new({ })
+        api = Msh::Api::POSTUserUserCodeRequestReadStatus.new({
+                                                                :user_code => $conf[:user_code],
+                                                              })
         api.request = @request[:request]
 
         response = execute(api)
@@ -22,7 +24,9 @@ module Msh
         read_status_id = json_load(response.body)['id']
 
 
-        api = Msh::Api::GETUserUserCodeRequestReadStatusIdResultModuleModuleIdPlain.new({                                                                                :id => read_status_id,
+        api = Msh::Api::GETUserUserCodeRequestReadStatusIdResultModuleModuleIdPlain.new({
+                                                                                          :user_code => $conf[:user_code],
+                                                                                          :id => read_status_id,
                                                                                           :module_id => command_args[:module_id]
                                                                                         })
 

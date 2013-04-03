@@ -13,6 +13,7 @@ module Msh
         command_args.parse_optional_args(command_array)
 
         api = Msh::Api::DELETEUserUserCodeTemplateIdVariableName.new({
+                                                                       :user_code => $conf[:user_code],
                                                                        :id => command_args[:template_id],
                                                                        :name => command_args[:template_variable_name],
                                                                      })

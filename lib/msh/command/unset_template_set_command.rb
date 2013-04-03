@@ -16,8 +16,9 @@ module Msh
         set_request_param(command_args)
 
         api = Msh::Api::PUTUserUserCodeTemplateId.new({
-                                              :id => command_args[:id]
-                                            })
+                                                        :user_code => $conf[:user_code],
+                                                        :id => command_args[:id]
+                                                      })
         api.request = @request[:request]
 
         response = execute(api)

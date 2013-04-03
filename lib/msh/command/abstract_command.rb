@@ -67,6 +67,7 @@ module Msh
 
     def module_init(command_args)
       api = Msh::Api::PUTUserUserCodeSaSaCodeConfigWorkingBlank.new({
+                                                                      :user_code => $conf[:user_code],
                                                                       :sa => command_args[:sa]
                                                                     })
       execute(api)
@@ -74,6 +75,7 @@ module Msh
 
     def get_vendor_code_sa_type(command_args)
       api = Msh::Api::GETUserUserCodeSaSaCode.new({
+                                                    :user_code => $conf[:user_code],
                                                     :sa => command_args[:sa]
                                                   })
       response = execute(api)
@@ -113,6 +115,7 @@ module Msh
       return false unless module_exist?(command_args)
 
       api = Msh::Api::GETUserUserCodeSaSaCodeConfigWorkingModuleIdPlain.new({
+                                                                              :user_code => $conf[:user_code],
                                                                               :sa_code => command_args[:sa]
                                                                             })
       execute(api).code == "404"
@@ -124,8 +127,9 @@ module Msh
       end
 
       api = Msh::Api::GETUserUserCodeSaSaCodeConfigWorking.new({
-                                                   :sa_code => command_args[:sa]
-                                                 })
+                                                                 :user_code => $conf[:user_code],
+                                                                 :sa_code => command_args[:sa]
+                                                               })
       response = execute(api)
       type = nil
       json_load(response.body)['results'].each{|e|

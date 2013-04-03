@@ -15,10 +15,15 @@ module Msh
         if command_args[:type] && command_args[:type_id]
           request_type = command_args[:type].split(/[\/|_|-]/).map{|token| token.capitalize}.join
           candidate_api = eval "Msh::Api::GETUserUserCodeRequest#{request_type}Id"
-          api = candidate_api.new({:id => command_args[:type_id]})
+          api = candidate_api.new({
+                                    :user_code => $conf[:user_code],
+                                    :id => command_args[:type_id]
+                                  })
         else
           set_request_param(command_args)
-          api = Msh::Api::GETUserUserCodeRequest.new({})
+          api = Msh::Api::GETUserUserCodeRequest.new({
+                                                       :user_code => $conf[:user_code],
+                                                     })
           api.request = @request[:request]
         end
 

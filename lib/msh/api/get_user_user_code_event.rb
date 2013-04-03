@@ -6,7 +6,7 @@ module Msh
       private
 
       def set_param
-        @api = "/user/#{$conf[:user_code]}/event"
+        @api = "/user/#{@api_request[:user_code]}/event"
         @method = "GET"
         @request = { }
       end

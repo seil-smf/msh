@@ -20,6 +20,7 @@ module Msh
           config_type = command_args[:type].split(/[\/|_|-]/).map{|token| token.capitalize}.join
           candidate_api = eval "Msh::Api::GETUserUserCodeSaSaCodeConfig#{config_type}ModuleIdPlain"
           api = candidate_api.new({
+                                    :user_code => $conf[:user_code],
                                     :sa_code => command_args[:sa],
                                     :module_id => command_args[:module_id]
                                   })
@@ -28,10 +29,12 @@ module Msh
           config_type = command_args[:type].split(/[\/|_|-]/).map{|token| token.capitalize}.join
           candidate_api = eval "Msh::Api::GETUserUserCodeSaSaCodeConfig#{config_type}"
           api = candidate_api.new({
+                                    :user_code => $conf[:user_code],
                                     :sa_code => command_args[:sa]
                                   })
         else
             api = Msh::Api::GETUserUserCodeSaSaCodeConfig.new({
+                                                                :user_code => $conf[:user_code],
                                                                 :sa_code => command_args[:sa]
                                                               })
 

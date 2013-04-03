@@ -6,7 +6,7 @@ module Msh
       private
 
       def set_param
-        @api = "/user/#{$conf[:user_code]}/sagroup"
+        @api = "/user/#{@api_request[:user_code]}/sagroup"
         @method = "GET"
       end
 

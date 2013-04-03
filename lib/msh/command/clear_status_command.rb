@@ -13,7 +13,9 @@ module Msh
 #        return if command_args.has_error?
         set_request_param(command_args)
 
-        api = Msh::Api::POSTUserUserCodeRequestClearStatus.new({ })
+        api = Msh::Api::POSTUserUserCodeRequestClearStatus.new({
+                                                                 :user_code => $conf[:user_code],
+                                                               })
         api.request = @request[:request]
 
         response = execute(api)

@@ -13,7 +13,9 @@ module Msh
         command_args.parse_optional_args(command_array)
         set_request_param(command_args)
 
-        api = Msh::Api::GETUserUserCodeEvent.new({ })
+        api = Msh::Api::GETUserUserCodeEvent.new({
+                                                   :user_code => $conf[:user_code],
+                                                 })
         api.request = @request[:request]
 
         response = execute(api)

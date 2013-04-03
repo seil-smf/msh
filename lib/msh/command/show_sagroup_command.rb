@@ -14,10 +14,13 @@ module Msh
 
         if command_args[:sagroup_id]
           api = Msh::Api::GETUserUserCodeSagroupId.new({
+                                                         :user_code => $conf[:user_code],
                                                          :id => command_args[:sagroup_id]
                                                        })
         else
-          api = Msh::Api::GETUserUserCodeSagroup.new
+          api = Msh::Api::GETUserUserCodeSagroup.new({
+                                                       :user_code => $conf[:user_code],
+                                                     })
         end
 
         response = execute(api)

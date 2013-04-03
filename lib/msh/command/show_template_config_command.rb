@@ -13,9 +13,10 @@ module Msh
         command_args.parse_optional_args(command_array)
 
         api = Msh::Api::GETUserUserCodeTemplateIdConfigModuleIdPlain.new({
-                                                                 :template_id => command_args[:template_id],
-                                                                 :module_id => command_args[:module_id]
-                                                               })
+                                                                           :user_code => $conf[:user_code],
+                                                                           :template_id => command_args[:template_id],
+                                                                           :module_id => command_args[:module_id]
+                                                                         })
         response = execute(api)
         return unless check_http_success(response)
 

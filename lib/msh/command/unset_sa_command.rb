@@ -14,6 +14,7 @@ module Msh
         set_request_param(command_args)
 
         api = Msh::Api::PUTUserUserCodeSaSaCode.new({
+                                                      :user_code => $conf[:user_code],
                                                       :sa => command_args[:sa]
                                                      })
 

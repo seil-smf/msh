@@ -14,11 +14,13 @@ module Msh
 
         if command_args[:template_variable_name]
           api = Msh::Api::GETUserUserCodeTemplateIdVariableName.new({
+                                                                      :user_code => $conf[:user_code],
                                                                       :id => command_args[:template_id],
                                                                       :name => command_args[:template_variable_name]
                                                                     })
         else
           api = Msh::Api::GETUserUserCodeTemplateIdVariable.new({
+                                                                  :user_code => $conf[:user_code],
                                                                   :id => command_args[:template_id]
                                                                 })
 

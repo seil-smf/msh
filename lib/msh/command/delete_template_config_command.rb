@@ -12,7 +12,7 @@ module Msh
         return if command_args.has_error?
 
         api = Msh::Api::DELETEUserUserCodeTemplateIdConfigModuleIdPlain.new({
-          
+                                                                              :user_code => $conf[:user_code],
                                                                               :template_id => command_args[:template_id],
                                                                               :module_id => command_args[:module_id]
         })

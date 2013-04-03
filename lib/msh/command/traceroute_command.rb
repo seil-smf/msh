@@ -16,7 +16,9 @@ module Msh
         command_args.parse_optional_args(command_array)
         set_request_param(command_args)
 
-        api = Msh::Api::POSTUserUserCodeRequestTraceroute.new({ })
+        api = Msh::Api::POSTUserUserCodeRequestTraceroute.new({
+                                                                :user_code => $conf[:user_code],
+                                                              })
         api.request = @request[:request]
 
         response = execute(api)
@@ -25,8 +27,9 @@ module Msh
         traceroute_id = json_load(response.body)['id']
 
         api = Msh::Api::GETUserUserCodeRequestTracerouteId.new({
-                                                           :id => traceroute_id
-                                                         })
+                                                                 :user_code => $conf[:user_code],
+                                                                 :id => traceroute_id
+                                                               })
 
         response = execute_poll(api)
         return unless check_http_success(response)

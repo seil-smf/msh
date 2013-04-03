@@ -6,7 +6,9 @@ module Msh
   module Command
     class MdCommandCommand < AbstractCommand
       def post_md_command_task
-        api = Msh::Api::POSTUserUserCodeRequestMdCommand.new({ })
+        api = Msh::Api::POSTUserUserCodeRequestMdCommand.new({
+                                                               :user_code => $conf[:user_code],
+                                                             })
         api.request = @request[:request]
 
         execute(api)
@@ -26,6 +28,7 @@ module Msh
         md_command_id = json_load(response.body)['id']
 
         api = Msh::Api::GETUserUserCodeRequestMdCommandId.new({
+                                                                :user_code => $conf[:user_code],
                                                                 :id => md_command_id,
                                                               })
         response = execute_poll(api)
@@ -34,9 +37,10 @@ module Msh
         md_command = json_load(response.body)
           if md_command["status"] == "successed"
             api = Msh::Api::GETUserUserCodeRequestMdCommandIdResultModuleModuleIdPlain.new({
+                                                                                             :user_code => $conf[:user_code],
                                                                                              :id => md_command_id,
                                                                                              :module_id => command_args[:module_id]
-                                                                                        })
+                                                                                           })
 
             response = execute(api)
             return unless check_http_success(response)

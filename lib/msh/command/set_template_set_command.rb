@@ -15,10 +15,12 @@ module Msh
 
         if command_args[:csv_path]
           api = Msh::Api::PUTUserUserCodeTemplateIdPackCsv.new({
+                                                                 :user_code => $conf[:user_code],
                                                                  :id => command_args[:template_id]
                                                                })
         else
           api = Msh::Api::PUTUserUserCodeTemplateId.new({
+                                                          :user_code => $conf[:user_code],
                                                           :id => command_args[:template_id]
                                                         })
         end

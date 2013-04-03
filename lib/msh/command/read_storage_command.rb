@@ -13,7 +13,9 @@ module Msh
         command_args.parse_optional_args(command_array)
         set_request_param(command_args)
 
-        api = Msh::Api::POSTUserUserCodeRequestReadStorage.new({ })
+        api = Msh::Api::POSTUserUserCodeRequestReadStorage.new({
+                                                                 :user_code => $conf[:user_code],
+                                                               })
         api.request = @request[:request]
 
         response = execute(api)
@@ -22,9 +24,10 @@ module Msh
 
         read_storage_id = json_load(response.body)['id']
         api = Msh::Api::GETUserUserCodeRequestReadStorageIdResultModuleModuleIdPlain.new({
-                                                                           :id => read_storage_id,
-                                                                           :module_id => 0
-                                                                         })
+                                                                                           :user_code => $conf[:user_code],
+                                                                                           :id => read_storage_id,
+                                                                                           :module_id => 0
+                                                                                         })
 
         response = execute_poll(api)
         return unless check_http_success(response)

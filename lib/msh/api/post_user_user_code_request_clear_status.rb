@@ -6,7 +6,7 @@ module Msh
       private
 
       def set_param
-        @api = "/user/#{$conf[:user_code]}/request/clear-status"
+        @api = "/user/#{@api_request[:user_code]}/request/clear-status"
         @method = "POST"
         @content_type = "multipart/form-data"
         @request = { }

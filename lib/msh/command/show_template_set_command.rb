@@ -14,14 +14,18 @@ module Msh
 
         if command_args[:csv] && command_args[:templateset_id]
           api = Msh::Api::GETUserUserCodeTemplateIdPackCsv.new({
+                                                                 :user_code => $conf[:user_code],
                                                                  :id => command_args[:templateset_id]
                                                                })
         elsif command_args[:templateset_id]
           api = Msh::Api::GETUserUserCodeTemplateId.new({
+                                                          :user_code => $conf[:user_code],
                                                           :id => command_args[:templateset_id]
                                                         })
         else
-          api = Msh::Api::GETUserUserCodeTemplate.new({ })
+          api = Msh::Api::GETUserUserCodeTemplate.new({
+                                                        :user_code => $conf[:user_code],
+                                                      })
         end
 
         response = execute(api)

@@ -6,7 +6,7 @@ module Msh
       private
 
       def set_param
-        @api = "/user/#{$conf[:user_code]}/template/#{@api_request[:id]}/variable/#{@api_request[:name]}"
+        @api = "/user/#{@api_request[:user_code]}/template/#{@api_request[:id]}/variable/#{@api_request[:name]}"
         @method = "DELETE"
       end
 

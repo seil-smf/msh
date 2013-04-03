@@ -6,7 +6,7 @@ module Msh
       private
 
       def set_param
-        @api = "/user/#{$conf[:user_code]}/template/#{@api_request[:id]}/pack/csv"
+        @api = "/user/#{@api_request[:user_code]}/template/#{@api_request[:id]}/pack/csv"
         @method = "PUT"
         @content_type = "multipart/form-data"
         @request = { }

@@ -20,12 +20,14 @@ module Msh
           config_type = get_module_type(command_args)
 
           api = Msh::Api::PUTUserUserCodeSaSaCodeConfigWorkingModuleIdPlain.new({
+                                                                                  :user_code => $conf[:user_code],
                                                                                   :sa => command_args[:sa],
                                                                                   :module_id => command_args[:module_id]
                                                                                 })
           api.request = @request[:request]
         when 'running'
           api = Msh::Api::PUTUserUserCodeSaSaCodeConfigRunning.new({
+                                                                     :user_code => $conf[:user_code],
                                                                      :sa => command_args[:sa],
                                                                    })
 
@@ -36,6 +38,7 @@ module Msh
 
         when 'startup'
           api = Msh::Api::PUTUserUserCodeSaSaCodeConfigStartup.new({
+                                                                     :user_code => $conf[:user_code],
                                                                      :sa => command_args[:sa],
                                                                    })
 

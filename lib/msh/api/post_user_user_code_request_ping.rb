@@ -6,7 +6,7 @@ module Msh
       private
 
       def set_param
-        @api = "/user/#{$conf[:user_code]}/request/ping"
+        @api = "/user/#{@api_request[:user_code]}/request/ping"
         @method = "POST"
         @content_type = "application/json"
         @request = { }

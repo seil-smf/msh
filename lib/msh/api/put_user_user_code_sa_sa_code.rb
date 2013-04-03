@@ -6,7 +6,7 @@ module Msh
       private
 
       def set_param
-        @api = "/user/#{$conf[:user_code]}/sa/#{@api_request[:sa]}"
+        @api = "/user/#{@api_request[:user_code]}/sa/#{@api_request[:sa]}"
         @method = "PUT"
         @content_type = "application/json"
         @request = { }

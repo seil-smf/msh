@@ -16,7 +16,9 @@ module Msh
         command_args.parse_optional_args(command_array)
         set_request_param(command_args)
 
-        api = Msh::Api::POSTUserUserCodeRequestPing.new({ })
+        api = Msh::Api::POSTUserUserCodeRequestPing.new({
+                                                          :user_code => $conf[:user_code],
+                                                        })
         api.request = @request[:request]
 
         response = execute(api)
@@ -25,6 +27,7 @@ module Msh
         ping_id = json_load(response.body)['id']
 
         api = Msh::Api::GETUserUserCodeRequestPingId.new({
+                                                           :user_code => $conf[:user_code],
                                                            :id => ping_id
                                                          })
 

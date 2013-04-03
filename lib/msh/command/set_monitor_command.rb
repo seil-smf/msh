@@ -14,6 +14,7 @@ module Msh
         set_request_param(command_args)
 
         api = Msh::Api::PUTUserUserCodeMonitorId.new({
+                                                       :user_code => $conf[:user_code],
                                                        :id => command_args[:monitor_id]
                                                      })
         api.request = @request[:request]

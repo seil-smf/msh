@@ -14,10 +14,13 @@ module Msh
 
         if command_args[:monitor_id]
           api = Msh::Api::GETUserUserCodeMonitorId.new({
+                                                         :user_code => $conf[:user_code],
                                                          :id => command_args[:monitor_id]
-                                                     })
+                                                       })
         else
-          api = Msh::Api::GETUserUserCodeMonitor.new
+          api = Msh::Api::GETUserUserCodeMonitor.new({
+                                                       :user_code => $conf[:user_code],
+                                                     })
         end
 
         response = execute(api)
