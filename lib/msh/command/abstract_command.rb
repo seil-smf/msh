@@ -149,7 +149,7 @@ module Msh
     end
 
     def execute(request)
-      sacmapiclient = SacmApiClient.new($conf, request)
+      sacmapiclient = SacmApiClient.new($conf, request.clone)
       sacmapiclient.start
     end
 
