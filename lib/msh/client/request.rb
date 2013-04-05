@@ -1,6 +1,6 @@
 module Msh
   module Request
-    def build_request(request)
+    def self.build_request(request)
       case request.method
       when "GET"
         return build_get_request(request)
@@ -13,75 +13,76 @@ module Msh
       end
     end
 
-    def build_query_string(request, question)
+    def self.build_query_string(request, question)
       if request.nil?
         return ""
       else
         query_array = []
-        request.each{|k, v|
-          if Integer === v
+        request.each do |k, v|
+          case v
+          when Integer
             v = v.to_s
             query_array.push([k.to_s, v].join('='))
-          elsif Array === v
-            v.each{|e|
+          when Array
+            v.each do |e|
               query_array.push([k.to_s, e].join('='))
-            }
+            end
           else
             query_array.push([k.to_s, v].join('='))
           end
-        }
+        end
 
         return "#{question ? nil : "?"}#{query_array.join('&')}"
       end
     end
 
-    def build_get_request(request)
-      return  Net::HTTP::Get.new(@conf[:path]+request.api+build_query_string(request.request, request.api.index("?")))
+    def self.build_get_request(request)
+      Net::HTTP::Get.new(request.api+build_query_string(request.request, request.api.index("?")))
     end
-    #build_get_request
 
-    def build_post_request(request)
-      req = Net::HTTP::Post.new(@conf[:path]+request.api)
+    def self.build_post_request(request)
+      req = Net::HTTP::Post.new(request.api)
 
-      if request.content_type == 'multipart/form-data'
+      case request.content_type
+      when 'multipart/form-data'
         build_multipart_form(req, request)
-      elsif request.content_type == 'application/json'
+      when 'application/json'
         req.content_type = request.content_type
         req.body = request.request.to_json
       end
 
-      return req
+      req
     end
-    #build_post_request
 
-    def build_put_request(request)
-      req = Net::HTTP::Put.new(@conf[:path]+request.api)
-      if request.content_type == 'multipart/form-data'
+    def self.build_put_request(request)
+      req = Net::HTTP::Put.new(request.api)
+
+      case request.content_type
+      when 'multipart/form-data'
         build_multipart_form(req, request)
-      elsif request.content_type == 'application/json'
+      when 'application/json'
         req.content_type = request.content_type
         req.body = request.request.to_json
-      elsif request.content_type == 'text/plain'
+      when 'text/plain'
         req.content_type = request.content_type
         req.body = request.request
       end
-      return req
-    end
-    #build_put_request
 
-    def build_delete_request(request)
-      return Net::HTTP::Delete.new(@conf[:path]+request.api)
+      req
     end
-    #build_delete_request
 
-    def build_multipart_form(req, request)
-      form = MultipartFormData.new(build_boundary(64))
+    def self.build_delete_request(request)
+      Net::HTTP::Delete.new(request.api)
+    end
+
+    def self.build_multipart_form(req, request)
+      form = MultipartFormData.new
 
       form.set_content_type(request.content_type)
 
-      request.request.each{|k, v|
-
-        if k == :"moduleId/type_command"
+      request.request.each do |k, v|
+        case k
+        when :"moduleId/type_command"
           v.each do |module_command|
             form.set_boundary
             form.set_crlf
@@ -92,7 +93,7 @@ module Msh
             form.set_form_data(module_command[:command])
           end
 
-        elsif k == :config_path
+        when :config_path
           form.set_boundary
           form.set_crlf
 
@@ -100,12 +101,12 @@ module Msh
           form.set_form_data('Content-Type: application/octet-stream')
           form.set_crlf
 
-          File.open(request_obj[:request][:config_path], "rb"){|f|
+          File.open(request_obj[:request][:config_path], "rb") do |f|
             form.set_form_data(f.read)
-          }
+          end
           form.set_crlf
 
-        elsif k == :csv_path
+        when :csv_path
           form.set_boundary
           form.set_crlf
 
@@ -113,11 +114,11 @@ module Msh
           form.set_form_data('Content-Type: text/csv')
           form.set_crlf
 
-          File.open(request.request[:csv_path], "r"){|f|
+          File.open(request.request[:csv_path], "r") do |f|
             form.set_form_data(f.read)
-          }
+          end
           form.set_crlf
-        elsif
+        when k
           form.set_boundary
           form.set_crlf
 
@@ -129,29 +130,21 @@ module Msh
           next
         end
 
-      }
+      end
       form.set_boundary
       form.set_str("--")
 
       req.content_type = form[:content_type]
       req.body = form[:body]
-
     end
-    #build_multipart_form
 
-    def build_boundary(n)
-      boundary = ''
-      n.times{
-        boundary += (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a)[Random.rand(62)]
-      }
-      return boundary
-    end
-    #build_boundary
 
     class MultipartFormData < Hash
       CRLF = "\r\n"
-      def initialize(boundary)
-        @boundary = boundary
+      BOUNDARY_CHAR = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+
+      def initialize
+        @boundary = build_boundary(64)
         self[:body] = ""
         self[:content_type] = ""
       end
@@ -176,6 +169,16 @@ module Msh
         self[:body] << str
       end
 
+      private
+
+      def build_boundary(n)
+        boundary = ''
+        n.times do
+          boundary << BOUNDARY_CHAR[Random.rand(62)]
+        end
+        return boundary
+      end
     end
+
   end
 end
