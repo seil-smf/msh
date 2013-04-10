@@ -29,14 +29,15 @@ module MshQuery
     all_sa = []
     fetch_user.each do |user|
       fetch_sa(user["code"]).each do |sa|
-        next unless sa["up"]
-        all_sa << {
-                   "user_code" => user["code"],
-                   "code" => sa["code"],
-                   "name" => sa["name"],
-                   "distributionId" => sa["distributionId"],
-                   "up" => sa["up"]
-                   }
+        all_sa << sa
+#        next unless sa["up"]
+#        all_sa << {
+#                   "user_code" => user["code"],
+#                   "code" => sa["code"],
+#                   "name" => sa["name"],
+#                   "distributionId" => sa["distributionId"],
+#                   "up" => sa["up"]
+#                   }
       end
     end
 
