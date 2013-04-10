@@ -109,11 +109,3 @@ module MshQuery
 
 end
 
-#p  MshQuery.bulk_push_sa(MshQuery.load_csv("./scripts/sample.csv"))
-
-
-MshQuery.fetch_log_all_sa.each do |code, log|
-  puts "#{code} show log: "
-  puts log
-end
-
