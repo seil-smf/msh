@@ -45,8 +45,17 @@ module Msh
         end
 
         response = execute(api)
-#        return unless check_http_success(response)
-        $output.puts "set config: #{command_args[:config_class].capitalize} Config was updated."
+
+        if response.code == "400"
+          $output.puts "set config: #{command_args[:config_class].capitalize} Config is invalid."
+          json_load(response.body)['results'].each do |error|
+            $output.puts "Line #{error['row']}: #{error['error']}: \"#{error['line']}\""
+          end
+        elsif response.code =~ HTTP_SUCCESS
+          $output.puts "set config: #{command_args[:config_class].capitalize} Config was updated."
+        else
+          check_http_success(response)
+        end
 #        puts_response(response)
       end
 
