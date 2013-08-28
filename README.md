@@ -19,5 +19,8 @@ IIJ SACMサービスをコマンドラインから利用するためのツール
 * SMF Developer
   * https://dev.smf.jp/
 
+* 最新版 msh gemパッケージ
+  * https://dev.smf.jp/dl/msh-0.5.1.gem
+
 
 [![Build Status](https://travis-ci.org/seil-smf/msh.png)](https://travis-ci.org/seil-smf/msh)
