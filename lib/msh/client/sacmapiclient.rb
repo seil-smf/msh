@@ -23,7 +23,7 @@ module Msh
       req = @request
       req["User-Agent"] = "msh/#{Msh::VERSION} (Ruby/#{RUBY_VERSION})"
 
-      if @conf[:proxy_addr]
+      unless @conf[:proxy_addr].nil? || @conf[:proxy_addr].empty?
         https = Net::HTTP::Proxy(@conf[:proxy_addr], @conf[:proxy_port]).new(@conf[:domain], SSL_PORT)
       else
         https = Net::HTTP.new(@conf[:domain], SSL_PORT)
