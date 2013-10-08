@@ -48,3 +48,5 @@ module Msh
     end
   end
 end
+
+$conf = Msh::Conf.new.read unless $".include?(__FILE__)

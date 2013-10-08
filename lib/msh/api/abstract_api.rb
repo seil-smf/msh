@@ -9,7 +9,6 @@ module Msh
         @errors = nil
         unless $conf
           require 'msh/conf'
-          $conf = Msh::Conf.new.read
         end
 
         @api_request = request

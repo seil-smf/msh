@@ -19,7 +19,6 @@ require 'msh/cache/cache'
 module Msh
   class Cli
     def initialize
-      $conf = Msh::Conf.new.read
       $output = Msh::Output.create($conf)
       load_history
       $cache = Msh::Cache.new

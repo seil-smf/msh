@@ -1,7 +1,7 @@
 module Msh
   module Constants
     REQUEST_MAX_POLL = 5
-    REQUEST_POLL_INTERVAL = 3
+    REQUEST_POLL_INTERVAL = $conf[:request_interval] || 3
     REQUEST_TARGET_TIME = nil
 
     HTTP_SUCCESS = /^2\d\d$/
