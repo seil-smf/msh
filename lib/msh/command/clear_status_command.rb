@@ -24,6 +24,7 @@ module Msh
         clear_status_id = json_load(response.body)['id']
 
         api = Msh::Api::GETUserUserCodeRequestClearStatusIdResultModuleModuleIdPlain.new({
+                                                                                          :user_code => $conf[:user_code],
                                                                                           :id => clear_status_id,
                                                                                           :module_id => command_args[:module_id]
                                                                                         })
