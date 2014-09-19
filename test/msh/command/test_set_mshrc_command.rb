@@ -8,6 +8,9 @@ class SetMshrcCommandTest < Test::Unit::TestCase
     $conf.expects(:set_mshrc).returns("conf")
     $conf.expects(:read).returns("conf")
     $conf.expects(:puts_conf).returns("conf")
+
+    $cache = mock()
+    $cache.expects(:reload).returns("cache")
   end
 
   def test_no_option

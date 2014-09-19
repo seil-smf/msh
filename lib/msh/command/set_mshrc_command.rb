@@ -22,6 +22,7 @@ module Msh
         begin
           $conf.read
           $conf.puts_conf
+          $cache.reload
         rescue => e
           p e
         end

@@ -21,10 +21,12 @@ module Msh
     def initialize
       $output = Msh::Output.create($conf)
       load_history
-      $cache = Msh::Cache.new
     end
 
     def run
+      $cache = Msh::Cache.new
+      $cache.reload
+
       begin
         loop do
           begin

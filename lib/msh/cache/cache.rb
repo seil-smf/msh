@@ -7,19 +7,6 @@ module Msh
     attr_accessor :sa_code, :sagroup_id, :monitor_id, :template_set_id, :template_variable_name
 
     def initialize
-      @sa_code = load_id(Msh::Api::GETUserUserCodeSa.new({:user_code => $conf[:user_code], }), "code")
-      @sagroup_id = load_id(Msh::Api::GETUserUserCodeSagroup.new({:user_code => $conf[:user_code], }), "id")
-      @monitor_id = load_id(Msh::Api::GETUserUserCodeMonitor.new({:user_code => $conf[:user_code], }), "id")
-      @template_set_id = load_id(Msh::Api::GETUserUserCodeTemplate.new({:user_code => $conf[:user_code], }), "id")
-      @template_variable_name = {}
-      @template_set_id.each do |template_id|
-        @template_variable_name[template_id] = load_id(Msh::Api::GETUserUserCodeTemplateIdVariable.new({
-                                                                                                         :user_code => $conf[:user_code],
-                                                                                                         :id => template_id
-                                                                                                       }),
-                                                       "name")
-      end
-
     end
 
     def load_id(api, key)
@@ -41,6 +28,22 @@ module Msh
       end
       ret
     end
+
+    def reload
+      @sa_code = load_id(Msh::Api::GETUserUserCodeSa.new({:user_code => $conf[:user_code], }), "code")
+      @sagroup_id = load_id(Msh::Api::GETUserUserCodeSagroup.new({:user_code => $conf[:user_code], }), "id")
+      @monitor_id = load_id(Msh::Api::GETUserUserCodeMonitor.new({:user_code => $conf[:user_code], }), "id")
+      @template_set_id = load_id(Msh::Api::GETUserUserCodeTemplate.new({:user_code => $conf[:user_code], }), "id")
+      @template_variable_name = {}
+      @template_set_id.each do |template_id|
+        @template_variable_name[template_id] = load_id(Msh::Api::GETUserUserCodeTemplateIdVariable.new({
+                                                                                                         :user_code => $conf[:user_code],
+                                                                                                         :id => template_id
+                                                                                                       }),
+                                                       "name")
+      end
+    end
+
   end
 end
 
