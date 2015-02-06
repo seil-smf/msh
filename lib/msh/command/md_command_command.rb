@@ -17,8 +17,8 @@ module Msh
       def doit(command_array)
         @verbose = command_array.delete('-v')
         command_args = CommandArgs.new
-        command_args.parse_args(command_array)
         command_args.parse_optional_args(command_array)
+        command_args.parse_args(command_array)
         return if command_args.has_error?
         set_request_param(command_args)
 
